@@ -1,0 +1,85 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# InformedVoter — Application tier (VM `iv-app`)
+#   Next.js standalone app + Caddy (TLS via Cloudflare DNS-01) + Umami
+#   NICs: VLAN 10 mgmt + VLAN 100 (public DNAT origin) + VPC (vmbr2)
+# Deploy: docker compose -f docker-compose.app.yml up -d --build
+# ═══════════════════════════════════════════════════════════════════════════
+
+name: iv-app
+
+services:
+  # ── Next.js application ──────────────────────────────────────────────────
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_BASE_URL: ${NEXT_PUBLIC_BASE_URL}
+        NEXT_PUBLIC_UMAMI_SCRIPT_URL: ${NEXT_PUBLIC_UMAMI_SCRIPT_URL}
+        NEXT_PUBLIC_UMAMI_WEBSITE_ID: ${NEXT_PUBLIC_UMAMI_WEBSITE_ID}
+    image: informedvoter/app:latest
+    container_name: iv-app
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      HOSTNAME: "0.0.0.0"
+    expose:
+      - "3000"
+    ports:
+      # Host crontab hits localhost:3000; bound to loopback only (never public)
+      - "127.0.0.1:3000:3000"
+    networks:
+      - iv
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 5s
+      start_period: 20s
+      retries: 3
+
+  # ── Caddy reverse proxy + TLS (Let's Encrypt DNS-01 via Cloudflare) ────────
+  caddy:
+    build:
+      context: ./docker/caddy
+      dockerfile: Dockerfile
+    image: informedvoter/caddy-cloudflare:latest
+    container_name: iv-caddy
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./docker/certs:/certs:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - app
+    networks:
+      - iv
+
+  # ── Umami analytics (database lives on `iv-data`) ─────────────────────────
+  umami:
+    image: ghcr.io/umami-software/umami:postgresql-latest
+    container_name: iv-umami
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: ${UMAMI_DATABASE_URL}
+      APP_SECRET: ${UMAMI_APP_SECRET}
+    expose:
+      - "3000"
+    networks:
+      - iv
+
+networks:
+  iv:
+    driver: bridge
+
+volumes:
+  caddy_data:
+    driver: local
+  caddy_config:
+    driver: local

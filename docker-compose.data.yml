@@ -1,0 +1,74 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# InformedVoter — Data tier (VM `iv-data`)
+#   PostgreSQL 16 + Redis 7. Bound to the isolated VPC (vmbr2, 10.39.112.0/20);
+#   only reachable from iv-app (10.39.112.19). Never on a routed/public VLAN.
+# Deploy: docker compose -f docker-compose.data.yml up -d
+# Requires an `.env` file containing DB_PASSWORD and REDIS_PASSWORD.
+# ═══════════════════════════════════════════════════════════════════════════
+
+name: iv-data
+
+services:
+  # ── PostgreSQL 17 ────────────────────────────────────────────────────────
+  postgres:
+    image: postgres:17-alpine
+    container_name: iv-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: informedvoter
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: informedvoter
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      # Bound to the VPC address only (never 0.0.0.0)
+      - "10.39.112.20:5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U informedvoter -d informedvoter"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - iv
+
+  # ── Redis 7 (rate limiting + distributed locks) ───────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: iv-redis
+    restart: unless-stopped
+    command:
+      - redis-server
+      - "--requirepass"
+      - "${REDIS_PASSWORD}"
+      - "--appendonly"
+      - "yes"
+      - "--appendfsync"
+      - "everysec"
+      - "--maxmemory"
+      - "192mb"
+      - "--maxmemory-policy"
+      - "allkeys-lru"
+    ports:
+      - "10.39.112.20:6379:6379"
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    networks:
+      - iv
+
+networks:
+  iv:
+    driver: bridge
+
+volumes:
+  pgdata:
+    driver: local
+  redisdata:
+    driver: local

@@ -1,0 +1,62 @@
+{
+  "name": "knowyourgov",
+  "version": "1.0.0",
+  "private": true,
+  "description": "KnowYourGov — nonpartisan US civic information platform",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "postinstall": "prisma generate",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:api": "playwright test --project=api",
+    "db:push": "prisma db push",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:studio": "prisma studio"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.133.0",
+    "@prisma/client": "^5.22.0",
+    "@tailwindcss/postcss": "^4.2.2",
+    "@tanstack/react-query": "^5.91.3",
+    "framer-motion": "^12.38.0",
+    "ioredis": "^5.4.2",
+    "js-yaml": "^4.3.2",
+    "lucide-react": "^0.577.0",
+    "next": "^16.4.5",
+    "postcss": "^8.5.8",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "resend": "^6.32.1",
+    "sanitize-html": "^2.18.1",
+    "tailwindcss": "^4.2.2"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@eslint/eslintrc": "^3.3.5",
+    "@playwright/test": "^1.64.0",
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^25.5.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@types/sanitize-html": "^2.16.1",
+    "@vitest/coverage-v8": "^5.0.3",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "^16.4.0",
+    "prisma": "^5.22.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "vitest": "^5.0.3"
+  },
+  "overrides": {
+    "zod": "^4.6.7"
+  }
+}

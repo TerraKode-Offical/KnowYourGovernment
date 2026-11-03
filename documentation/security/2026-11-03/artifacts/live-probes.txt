@@ -1,0 +1,34 @@
+# Live production probes — 2026-11-03 (post-deploy)
+
+GET  /api/cron/sync-members (no auth)                    401
+POST /api/ai/analyze-bill (no token)                     401
+POST /api/subscribe  Origin: https://evil.example        403
+POST /api/subscribe  same-origin (email unconfigured)    503
+POST /api/local/meetings/submit  honeypot filled         400
+POST /api/local/template (no Anthropic key)              503
+GET  /api/candidates?officeType=NOPE                     400
+GET  /api/bills?stateAbbr=ZZ                             404
+GET  /api/search?q=a                                     400
+GET  /_next/image?...x.svg                               400   (SVG blocked)
+
+GET  /api/polling-places?address=1600 Pennsylvania Ave NW, Washington, DC 20500
+     → 200, election "2026 General Midterm Election", electionDay 2026-11-03
+     → pollingHours "Tue, Nov 3: 7 am - 8 pm"
+
+GET  /api/health?verbose=1
+     → 200, database true, per-job last run + dataset ages
+
+GET  /candidate/3234                                     200  (new FEC candidate)
+GET  /state/MI/representatives                           200
+GET  /                                                   200
+GET  /bills                                              200
+GET  /elections                                          200
+GET  /judicial                                           200
+GET  /local                                              200
+GET  /local/templates                                    200
+GET  /polling-places                                     200
+GET  /compare                                            200
+GET  /search?q=healthcare                                200
+GET  /pac-recipients                                     200
+GET  /sitemap.xml                                        200
+GET  /robots.txt                                         200

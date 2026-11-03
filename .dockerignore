@@ -1,0 +1,52 @@
+# ── Git ─────────────────────────────────────────────────────────────────────
+.git
+.gitignore
+.gitattributes
+
+# ── Node ────────────────────────────────────────────────────────────────────
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ── Next.js ─────────────────────────────────────────────────────────────────
+.next
+coverage
+out
+*.tsbuildinfo
+next-env.d.ts
+
+# ── Env files (never bake secrets into images) ──────────────────────────────
+.env
+.env.*
+!.env.example
+!.env.data.example
+
+# ── Test artifacts ──────────────────────────────────────────────────────────
+test-results
+playwright-report
+e2e
+
+# ── Dev tools / OS ──────────────────────────────────────────────────────────
+.vscode
+.idea
+*.swp
+.DS_Store
+Thumbs.db
+
+# ── Docs and scripts are not needed at runtime ──────────────────────────────
+documentation
+scripts
+README.md
+SECURITY.md
+AGENTS.md
+LICENSE
+docker-compose*.yml
+Dockerfile
+.dockerignore
+
+# ── Local state ─────────────────────────────────────────────────────────────
+.creds
+docker/certs
+prisma/*.db
+prisma/*.db-journal

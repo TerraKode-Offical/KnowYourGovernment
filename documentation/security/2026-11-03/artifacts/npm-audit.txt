@@ -1,0 +1,19 @@
+# npm audit --omit=dev  (2026-11-03, after remediation)
+
+found 0 vulnerabilities
+
+# Resolved production versions
+next            16.4.5
+zod             4.6.7
+sanitize-html   2.18.1
+deepmerge       absent (dropped by sanitize-html 2.18.1)
+
+# Before remediation (same command)
+deepmerge  >=4.2.0
+  sanitize-html  2.0.0-beta - 2.18.0   (low/moderate)
+next  16.0.0 - 16.4.0                  (critical)
+  GHSA-2464-fhr4-w9xw  Unauthenticated RCE in Image Optimization API (SVG)
+  GHSA-p3m5-59mp-jv5r  Denial of Service in App Router using Server Actions
+  GHSA-673q-mjm6-r5xr  Unauthenticated RCE in `use cache` returning typed arrays
+zod  <4.6.6                            (high)
+  GHSA-mrhx-c7xc-m3w5  Memory exhaustion validating oversized collections

@@ -1,0 +1,25 @@
+# Production dataset counts — 2026-11-03 21:00 UTC
+
+bills                 7476     (newest action 2026-11-02)
+candidates            2672
+  incumbents           600
+  FEC-linked          2604
+  challengers         2072
+candidate_finance      193 rows across 190 candidates
+court_cases            160      (31 OT2026)
+voter_info              51
+elections              123      (53 dated 2026-11-03)
+bill_votes            2147
+cosponsors               0      (not implemented)
+pac_contributions        0      (query returns no rows)
+local_municipalities     0
+local_meetings           0
+subscribers              0      (email unconfigured)
+data_sync_log           58
+
+# FEC candidate sync
+seen 2660 | created 2076 | updated 574 | skipped 10 | errors 0 | 44.4 s
+
+# Integrity checks
+duplicate fecCandidateId ............ 0
+duplicate surname+district (House) .. 0
