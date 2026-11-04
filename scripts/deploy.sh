@@ -32,7 +32,7 @@ docker compose -f docker-compose.app.yml up -d --build
 
 step "Running Prisma schema sync..."
 sleep 5
-docker compose -f docker-compose.app.yml exec -T app npx prisma db push || \
+docker compose -f docker-compose.app.yml exec -T app npx -y prisma@5.22.0 db push || \
     warn "prisma db push failed or no changes. Continuing..."
 
 step "Running health check..."
