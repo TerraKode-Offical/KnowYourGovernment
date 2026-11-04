@@ -19,9 +19,9 @@ import AnimatedSection from "@/components/features/AnimatedSection";
 export const revalidate = 86400; // ISR: regenerate once per day
 
 export const metadata: Metadata = {
-  title: "About InformedVoter",
+  title: "About KnowYourGov",
   description:
-    "Learn about InformedVoter's mission, methodology, data sources, and commitment to nonpartisan civic information.",
+    "Learn about KnowYourGov's mission, methodology, data sources, and commitment to nonpartisan civic information.",
 };
 
 const DATA_SOURCES = [
@@ -80,13 +80,13 @@ const AI_USES = [
   },
   {
     title: "What AI Does NOT Do",
-    description: "InformedVoter AI does not make endorsements, predict election outcomes, generate political opinions, or create content without citing sources. All AI output is reviewed.",
+    description: "KnowYourGov AI does not make endorsements, predict election outcomes, generate political opinions, or create content without citing sources. All AI output is reviewed.",
     safe: false,
   },
 ];
 
 const DISCLAIMERS = [
-  "InformedVoter is an independent, nonpartisan platform. We are not affiliated with any political party, candidate, government agency, or advocacy organization.",
+  "KnowYourGov is an independent, nonpartisan platform. We are not affiliated with any political party, candidate, government agency, or advocacy organization.",
   "While we strive for accuracy, information on this site may be out of date. Always verify critical information with official government sources before making decisions.",
   "AI-generated summaries and analysis are produced to inform, not to advocate. They may contain errors. We do not accept responsibility for decisions made based on content from this site.",
   "Campaign finance data is sourced from public FEC filings and may not reflect the most current reporting period.",
@@ -110,7 +110,7 @@ export default function AboutPage() {
               <Landmark size={26} />
             </div>
             <div>
-              <h1 className="text-3xl sm:text-4xl font-bold">About InformedVoter</h1>
+              <h1 className="text-3xl sm:text-4xl font-bold">About KnowYourGov</h1>
               <p className="text-white/60 mt-2 text-lg">
                 Transparent. Nonpartisan. Empowering.
               </p>
@@ -118,15 +118,15 @@ export default function AboutPage() {
           </div>
 
           <p className="text-white/70 leading-relaxed max-w-2xl text-base">
-            InformedVoter is a free, nonpartisan civic information platform dedicated to making
-            it easier for every American to participate in democracy — without partisan spin, ads,
+            KnowYourGov is a free, nonpartisan civic information platform dedicated to making
+            it easier for every American to participate in democracy â€” without partisan spin, ads,
             or hidden agendas.
           </p>
         </div>
       </div>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
-        {/* ── Mission ── */}
+        {/* â”€â”€ Mission â”€â”€ */}
         <AnimatedSection delay={0}>
           <section>
             <h2 className="text-2xl font-bold text-[#1B2A4A] mb-6">Our Mission</h2>
@@ -143,7 +143,7 @@ export default function AboutPage() {
                 {
                   icon: Eye,
                   title: "Transparent",
-                  description: "Every summary cites its sources. Our AI methodology is documented. We explain what we do — and what we don't do.",
+                  description: "Every summary cites its sources. Our AI methodology is documented. We explain what we do â€” and what we don't do.",
                   color: "text-emerald-600",
                   bg: "bg-emerald-50",
                   border: "border-emerald-100",
@@ -172,13 +172,13 @@ export default function AboutPage() {
           </section>
         </AnimatedSection>
 
-        {/* ── Methodology ── */}
+        {/* â”€â”€ Methodology â”€â”€ */}
         <AnimatedSection delay={0.05}>
           <section className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 sm:p-8">
             <h2 className="text-2xl font-bold text-[#1B2A4A] mb-2">Data Sources & Methodology</h2>
             <p className="text-gray-500 mb-6 text-sm leading-relaxed">
-              InformedVoter aggregates data from official government sources and reputable nonpartisan organizations.
-              We do not create or manufacture political data — we aggregate, summarize, and contextualize existing public information.
+              KnowYourGov aggregates data from official government sources and reputable nonpartisan organizations.
+              We do not create or manufacture political data â€” we aggregate, summarize, and contextualize existing public information.
             </p>
 
             <div className="space-y-4">
@@ -200,7 +200,7 @@ export default function AboutPage() {
           </section>
         </AnimatedSection>
 
-        {/* ── AI Transparency ── */}
+        {/* â”€â”€ AI Transparency â”€â”€ */}
         <AnimatedSection delay={0.1}>
           <section className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 sm:p-8">
             <h2 className="text-2xl font-bold text-[#1B2A4A] mb-2 flex items-center gap-3">
@@ -208,7 +208,7 @@ export default function AboutPage() {
               AI Transparency
             </h2>
             <p className="text-gray-500 mb-6 text-sm leading-relaxed">
-              InformedVoter uses AI (specifically, Claude by Anthropic) to help make complex civic information accessible.
+              KnowYourGov uses AI (specifically, Claude by Anthropic) to help make complex civic information accessible.
               We believe in being fully transparent about how and where AI is used.
             </p>
 
@@ -239,7 +239,7 @@ export default function AboutPage() {
           </section>
         </AnimatedSection>
 
-        {/* ── Disclaimers ── */}
+        {/* â”€â”€ Disclaimers â”€â”€ */}
         <AnimatedSection delay={0.15}>
           <section className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 sm:p-8">
             <h2 className="text-2xl font-bold text-[#1B2A4A] mb-6 flex items-center gap-3">
@@ -259,7 +259,7 @@ export default function AboutPage() {
           </section>
         </AnimatedSection>
 
-        {/* ── Contact ── */}
+        {/* â”€â”€ Contact â”€â”€ */}
         <AnimatedSection delay={0.2}>
           <section className="bg-[#1B2A4A] text-white rounded-2xl p-6 sm:p-8">
             <h2 className="text-2xl font-bold mb-2">Contact Us</h2>
@@ -300,7 +300,7 @@ export default function AboutPage() {
             </div>
 
             <p className="mt-6 text-xs text-white/40 text-center">
-              © {new Date().getFullYear()} InformedVoter. All rights reserved. Not affiliated with any government agency or political organization.
+              Â© {new Date().getFullYear()} KnowYourGov. All rights reserved. Not affiliated with any government agency or political organization.
             </p>
           </section>
         </AnimatedSection>

@@ -5,9 +5,9 @@ import { ChevronRight, ShieldCheck } from "lucide-react";
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — InformedVoter",
+  title: "Privacy Policy â€” KnowYourGov",
   description:
-    "InformedVoter privacy policy. Learn how we handle your data, cookies, and personal information.",
+    "KnowYourGov privacy policy. Learn how we handle your data, cookies, and personal information.",
 };
 
 export default function PrivacyPage() {
@@ -43,7 +43,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-xl font-bold text-[#1B2A4A] mb-3">No Tracking or Ads</h2>
             <p className="text-gray-600 leading-relaxed">
-              InformedVoter does not use third-party analytics trackers, advertising networks,
+              KnowYourGov does not use third-party analytics trackers, advertising networks,
               or tracking pixels. We do not serve ads of any kind. Your browsing activity on
               this site is not monitored, profiled, or sold to advertisers.
             </p>
@@ -52,10 +52,10 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-xl font-bold text-[#1B2A4A] mb-3">Public Data Sources</h2>
             <p className="text-gray-600 leading-relaxed">
-              All civic information displayed on InformedVoter is sourced from publicly available
+              All civic information displayed on KnowYourGov is sourced from publicly available
               government APIs and official data providers, including Congress.gov, the Federal
               Election Commission (FEC), LegiScan, and the Google Civic Information API. We
-              aggregate and present this public information — we do not create or manufacture
+              aggregate and present this public information â€” we do not create or manufacture
               political data.
             </p>
           </section>
@@ -63,7 +63,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-xl font-bold text-[#1B2A4A] mb-3">Cookies</h2>
             <p className="text-gray-600 leading-relaxed">
-              InformedVoter uses a single cookie to remember your state preference (e.g., &ldquo;FL&rdquo;
+              KnowYourGov uses a single cookie to remember your state preference (e.g., &ldquo;FL&rdquo;
               or &ldquo;CA&rdquo;) so we can show you relevant local information. This cookie contains
               only your two-letter state abbreviation, expires after one year, and is not shared
               with any third party. No other cookies are set by this site.
@@ -76,14 +76,14 @@ export default function PrivacyPage() {
               We do not collect, store, or process any personal information. We do not require
               account creation, email addresses, or any form of registration. There are no
               contact forms that transmit personal data to our servers. Your visit to
-              InformedVoter is anonymous.
+              KnowYourGov is anonymous.
             </p>
           </section>
 
           <section>
             <h2 className="text-xl font-bold text-[#1B2A4A] mb-3">Your Data Is Never Sold</h2>
             <p className="text-gray-600 leading-relaxed">
-              InformedVoter does not sell, rent, trade, or otherwise share any user data with
+              KnowYourGov does not sell, rent, trade, or otherwise share any user data with
               third parties. Since we do not collect personal data, there is nothing to sell.
               We are committed to keeping this platform free from commercial data exploitation.
             </p>
@@ -103,7 +103,7 @@ export default function PrivacyPage() {
             <h2 className="text-xl font-bold text-[#1B2A4A] mb-3">Changes to This Policy</h2>
             <p className="text-gray-600 leading-relaxed">
               If we make changes to this privacy policy, we will update this page. Because we
-              do not collect email addresses, we cannot notify you directly — we encourage you
+              do not collect email addresses, we cannot notify you directly â€” we encourage you
               to review this page periodically.
             </p>
           </section>

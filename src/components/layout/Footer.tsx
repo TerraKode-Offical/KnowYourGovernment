@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { Landmark, ExternalLink } from "lucide-react";
 
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Data
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const DATA_SOURCES = [
   { label: "Congress.gov",                    href: "https://congress.gov" },
@@ -20,9 +20,9 @@ const FOOTER_LINKS = [
 
 const CURRENT_YEAR = new Date().getFullYear();
 
-// ─────────────────────────────────────────────
-// Component — Server Component (no "use client")
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Component â€” Server Component (no "use client")
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export default function Footer() {
   return (
@@ -37,13 +37,13 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-14">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-16">
 
-          {/* ── Brand column ── */}
+          {/* â”€â”€ Brand column â”€â”€ */}
           <div>
             <Link
               href="/"
               className="inline-flex items-center gap-2.5 mb-4 group focus-visible:outline-none
                          focus-visible:ring-2 focus-visible:ring-white/30 rounded-lg"
-              aria-label="InformedVoter — Home"
+              aria-label="KnowYourGov â€” Home"
             >
               <span
                 className="flex items-center justify-center w-8 h-8 rounded-lg bg-white/10
@@ -58,11 +58,11 @@ export default function Footer() {
             </Link>
             <p className="text-sm text-white/55 leading-relaxed max-w-xs">
               Your government, explained in plain English. Congress, the Supreme Court,
-              federal agencies, and your ballot — nonpartisan and jargon-free.
+              federal agencies, and your ballot â€” nonpartisan and jargon-free.
             </p>
           </div>
 
-          {/* ── Links column ── */}
+          {/* â”€â”€ Links column â”€â”€ */}
           <div>
             <h2 className="font-serif font-semibold text-white text-sm uppercase tracking-widest mb-4">
               Navigate
@@ -85,7 +85,7 @@ export default function Footer() {
             </nav>
           </div>
 
-          {/* ── Data sources column ── */}
+          {/* â”€â”€ Data sources column â”€â”€ */}
           <div>
             <h2 className="font-serif font-semibold text-white text-sm uppercase tracking-widest mb-4">
               Data Sources
@@ -110,13 +110,13 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* ── Divider ── */}
+        {/* â”€â”€ Divider â”€â”€ */}
         <div className="border-t border-white/10 mt-10 pt-8 space-y-4">
 
           {/* Nonpartisan disclaimer */}
           <p className="text-xs text-white/45 leading-relaxed">
             <strong className="text-white/60 font-semibold">Nonpartisan Disclaimer:</strong>{" "}
-            InformedVoter does not endorse, support, or oppose any political candidate, party, or
+            KnowYourGov does not endorse, support, or oppose any political candidate, party, or
             ballot measure. Information is presented neutrally to help voters make their own
             informed decisions. We receive no funding from political campaigns, parties, PACs,
             or government entities.
@@ -133,7 +133,7 @@ export default function Footer() {
 
           {/* Copyright */}
           <p className="text-xs text-white/35">
-            &copy; {CURRENT_YEAR} InformedVoter. All rights reserved.
+            &copy; {CURRENT_YEAR} KnowYourGov. All rights reserved.
             Not affiliated with any government agency or political organization.
           </p>
         </div>

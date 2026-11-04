@@ -11,7 +11,7 @@ export interface RouteDef {
 // Static + data-backed pages expected to render 200.
 export const PUBLIC_ROUTES: RouteDef[] = [
   { path: "/", name: "home", h1: /Your Government, In Plain English/i },
-  { path: "/about", name: "about", h1: /About InformedVoter/i },
+  { path: "/about", name: "about", h1: /About KnowYourGov/i },
   { path: "/bills", name: "bills", h1: /Federal Bills/i },
   { path: "/elections", name: "elections", h1: /Upcoming Elections/i },
   { path: "/judicial", name: "judicial", h1: /Supreme Court/i },

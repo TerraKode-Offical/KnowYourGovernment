@@ -10,18 +10,18 @@ import SubscribeBottomBar from "@/components/features/SubscribeBottomBar";
 import StateRequiredBanner from "@/components/features/StateRequiredBanner";
 import { isEmailConfigured } from "@/lib/config";
 
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Metadata
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export const metadata: Metadata = {
   title: {
-    default: "InformedVoter — Your Government, In Plain English",
-    template: "%s | InformedVoter",
+    default: "KnowYourGov â€” Your Government, In Plain English",
+    template: "%s | KnowYourGov",
   },
   description:
     "Understand your government without the jargon. Track Congress, Supreme Court rulings, " +
-    "federal agency budgets, campaign finance, and your local ballot — all in plain English.",
+    "federal agency budgets, campaign finance, and your local ballot â€” all in plain English.",
   keywords: [
     "government",
     "congress",
@@ -36,9 +36,9 @@ export const metadata: Metadata = {
     "judicial branch",
     "SCOTUS",
   ],
-  authors: [{ name: "InformedVoter" }],
-  creator: "InformedVoter",
-  publisher: "InformedVoter",
+  authors: [{ name: "KnowYourGov" }],
+  creator: "KnowYourGov",
+  publisher: "KnowYourGov",
   metadataBase: new URL("https://knowyourgov.us"),
   alternates: { canonical: "/" },
   robots: {
@@ -50,17 +50,17 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://knowyourgov.us",
-    siteName: "InformedVoter",
-    title: "InformedVoter — Your Government, In Plain English",
+    siteName: "KnowYourGov",
+    title: "KnowYourGov â€” Your Government, In Plain English",
     description:
       "Track Congress, the Supreme Court, federal agencies, and your ballot. " +
-      "Complex government made simple — nonpartisan, no spin.",
+      "Complex government made simple â€” nonpartisan, no spin.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "InformedVoter — Your Government, In Plain English",
+    title: "KnowYourGov â€” Your Government, In Plain English",
     description:
-      "Congress, SCOTUS, federal agencies, and your ballot — all explained in plain English.",
+      "Congress, SCOTUS, federal agencies, and your ballot â€” all explained in plain English.",
   },
 };
 
@@ -70,9 +70,9 @@ export const viewport: Viewport = {
   themeColor: "#1B2A4A",
 };
 
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Root Layout
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 interface RootLayoutProps {
   children: ReactNode;

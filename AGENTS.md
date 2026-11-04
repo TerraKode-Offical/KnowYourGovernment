@@ -1,4 +1,4 @@
-# AGENTS.md — KnowYourGov
+# AGENTS.md Ã¢â‚¬â€ KnowYourGov
 
 Single source of truth for AI coding agents. Update this file when you change
 the build, folder structure, data pipeline, or security model.
@@ -12,8 +12,8 @@ platform: Congress, the Supreme Court, federal agencies, campaign finance,
 elections, and local government, explained in plain English.
 
 Stack: **Next.js 16 (App Router) + TypeScript 5.9 (strict) + Tailwind v4 +
-Prisma 5.22 + PostgreSQL 17 + Redis 7**, self-hosted on Proxmox behind Caddy and
-Cloudflare. Anthropic and Resend are optional integrations.
+Prisma 5.22 + PostgreSQL 17 + Redis 7**, deployed via Docker Compose.
+Anthropic and Resend are optional integrations.
 
 ---
 
@@ -63,19 +63,19 @@ Use `@/` imports (maps to `src/`). Default to Server Components; add
 1. **Middleware** (`src/middleware.ts`, Node runtime) rate-limits all `/api/*`
    and authenticates `/api/ai/*` and `/api/cron/*` with a constant-time Bearer
    check. Cron also accepts `?secret=`.
-2. **Handler auth** — every cron route re-verifies with
+2. **Handler auth** Ã¢â‚¬â€ every cron route re-verifies with
    `verifyCronSecret()` (`src/lib/auth.ts`) using `crypto.timingSafeEqual`.
    Defense in depth: do not remove either layer.
-3. **Public writes** — `src/lib/request-guard.ts` enforces same-origin,
+3. **Public writes** Ã¢â‚¬â€ `src/lib/request-guard.ts` enforces same-origin,
    `application/json`, a body-size cap and a honeypot. Applied to subscribe,
    demographics, meetings/submit and local/template.
-4. **Sanitization** — external HTML goes through `sanitizeHtml()`
+4. **Sanitization** Ã¢â‚¬â€ external HTML goes through `sanitizeHtml()`
    (`src/lib/sanitize.ts`). Never pass raw external HTML to
    `dangerouslySetInnerHTML`.
-5. **Error handling** — wrap routes with `withErrorHandler` /
+5. **Error handling** Ã¢â‚¬â€ wrap routes with `withErrorHandler` /
    `withCronErrorHandler`. Do not add local `try/catch` that swallows
    `AppError`; it turns 400/404 into 500.
-6. **Optional integrations** — check `src/lib/config.ts` before calling Claude
+6. **Optional integrations** Ã¢â‚¬â€ check `src/lib/config.ts` before calling Claude
    or Resend. Missing keys must return `503`/skip, never 500 or a false success.
 7. **Rate limiting fails open** when Redis is unavailable (intentional).
 
@@ -105,26 +105,27 @@ row in `DataSyncLog` via `logSync()` (`src/lib/sync-log.ts`).
 | `analyze-cases` | 14:00 daily | Claude |
 | `send-digest` | 15:00 daily | Resend |
 
-**Cron log ownership:** jobs append to `/var/log/informedvoter-cron.log`, which
-must be writable by the crontab owner (`smsadmin`). A root-owned file makes bash
-fail the redirect *before* `curl` runs — every job fails silently. All entries
+**Cron log ownership:** jobs append to `/var/log/KnowYourGov-cron.log`, which
+must be writable by the crontab owner (`cronuser`). A root-owned file makes bash
+fail the redirect *before* `curl` runs Ã¢â‚¬â€ every job fails silently. All entries
 use `--max-time 900`.
 
 ---
 
 ## Pitfalls
 
-- **Prisma singleton** — import `prisma` from `@/lib/db`; never `new PrismaClient()`.
-- **Middleware runtime** — must stay `nodejs` (ioredis needs TCP).
-- **`next.config.mjs` CSP** — `img-src` must include every remote image host
+- **Prisma singleton** Ã¢â‚¬â€ import `prisma` from `@/lib/db`; never `new PrismaClient()`.
+- **Middleware runtime** Ã¢â‚¬â€ must stay `nodejs` (ioredis needs TCP).
+- **`next.config.mjs` CSP** Ã¢â‚¬â€ `img-src` must include every remote image host
   (`www.congress.gov`, `bioguide.congress.gov`, `theunitedstates.io`, `*.oyez.org`).
-- **FEC candidates** — `sync-candidates` imports `cycle=2026`,
+- **FEC candidates** Ã¢â‚¬â€ `sync-candidates` imports `cycle=2026`,
   `candidate_status=C`, `has_raised_funds=true`. It is not a full ballot list.
 - **Voter info is static** (`sync-voter-info`), not scraped; date fields are null.
 - **No LegiScan integration**, despite older docs. State bill pages show federal
   bills sponsored by that state's delegation.
 - **`/local` is empty** until municipalities are seeded.
-- **Backups** — nightly `pg_dump` on `iv-data` (`/etc/cron.d/informedvoter-backup`).
+- **Backups** Ã¢â‚¬â€ nightly `pg_dump` with 14-day rotation
+  (`/etc/cron.d/KnowYourGov-backup`).
 
 ---
 
@@ -145,15 +146,14 @@ Unit tests live in `src/lib/__tests__/`; E2E in `e2e/`.
 
 ## Deployment
 
-Two Proxmox VMs:
+Two Docker Compose tiers:
 
-- **`iv-app`** — Caddy (TLS), Next.js app, Umami. Deploy: `./scripts/deploy.sh`
-  (git pull + `docker compose -f docker-compose.app.yml up -d --build`).
-- **`iv-data`** — PostgreSQL 17 + Redis 7, VPC-only (`10.39.112.20`).
-  Deploy: `docker compose -f docker-compose.data.yml up -d`.
+- **App tier** (`docker-compose.app.yml`) Ã¢â‚¬â€ Next.js app + reverse proxy.
+  Deploy: `./scripts/deploy.sh` (git pull +
+  `docker compose -f docker-compose.app.yml up -d --build`).
+- **Data tier** (`docker-compose.data.yml`) Ã¢â‚¬â€ PostgreSQL 17 + Redis 7,
+  network-isolated. Deploy: `docker compose -f docker-compose.data.yml up -d`.
 
-Ingress: Cloudflare (proxied, Full strict) → DNAT source-locked to Cloudflare →
-Caddy → app. Database and Redis are never publicly reachable.
-
-Full runbook: [`documentation/03_DEPLOYMENT.md`](./documentation/03_DEPLOYMENT.md)
-and [`documentation/04_OPERATIONS.md`](./documentation/04_OPERATIONS.md).
+The database and cache are never publicly reachable. Hosting topology, server
+administration, and the operations runbook are maintained privately (see
+`documentation/README.md`).

@@ -1,6 +1,6 @@
 #!/bin/bash
 # ============================================================================
-# KnowYourGov - cron installation (host crontab on iv-app)
+# KnowYourGov - cron installation (host crontab on the app host)
 #
 #   CRON_SECRET=<secret> ./scripts/cron-setup.sh
 #
@@ -16,7 +16,7 @@ set -euo pipefail
 
 APP_URL="${APP_URL:-http://localhost:3000}"
 CRON_SECRET="${CRON_SECRET:-}"
-LOG_FILE="${LOG_FILE:-/var/log/informedvoter-cron.log}"
+LOG_FILE="${LOG_FILE:-/var/log/KnowYourGov-cron.log}"
 RUN_USER="$(id -un)"
 
 if [ -z "${CRON_SECRET}" ]; then

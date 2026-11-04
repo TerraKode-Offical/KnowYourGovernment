@@ -1,31 +1,31 @@
-# ═══════════════════════════════════════════════════════════════════════════
-# InformedVoter — Data tier (VM `iv-data`)
-#   PostgreSQL 16 + Redis 7. Bound to the isolated VPC (vmbr2, 10.39.112.0/20);
-#   only reachable from iv-app (10.39.112.19). Never on a routed/public VLAN.
+# â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+# KnowYourGov â€” Data tier
+#   PostgreSQL 17 + Redis 7. Bind ports to a private/internal interface only
+#   (set DATA_BIND_IP in `.env`; never expose these ports publicly).
 # Deploy: docker compose -f docker-compose.data.yml up -d
-# Requires an `.env` file containing DB_PASSWORD and REDIS_PASSWORD.
-# ═══════════════════════════════════════════════════════════════════════════
+# Requires an `.env` file containing DB_PASSWORD, REDIS_PASSWORD, DATA_BIND_IP.
+# â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 name: iv-data
 
 services:
-  # ── PostgreSQL 17 ────────────────────────────────────────────────────────
+  # â”€â”€ PostgreSQL 17 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   postgres:
     image: postgres:17-alpine
     container_name: iv-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: informedvoter
+      POSTGRES_USER: KnowYourGov
       POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: informedvoter
+      POSTGRES_DB: KnowYourGov
       PGDATA: /var/lib/postgresql/data/pgdata
     ports:
-      # Bound to the VPC address only (never 0.0.0.0)
-      - "10.39.112.20:5432:5432"
+      # Bind to a private interface only (never 0.0.0.0)
+      - "${DATA_BIND_IP:-127.0.0.1}:5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U informedvoter -d informedvoter"]
+      test: ["CMD-SHELL", "pg_isready -U KnowYourGov -d KnowYourGov"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -33,7 +33,7 @@ services:
     networks:
       - iv
 
-  # ── Redis 7 (rate limiting + distributed locks) ───────────────────────────
+  # â”€â”€ Redis 7 (rate limiting + distributed locks) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   redis:
     image: redis:7-alpine
     container_name: iv-redis
@@ -51,7 +51,7 @@ services:
       - "--maxmemory-policy"
       - "allkeys-lru"
     ports:
-      - "10.39.112.20:6379:6379"
+      - "${DATA_BIND_IP:-127.0.0.1}:6379:6379"
     volumes:
       - redisdata:/data
     healthcheck:

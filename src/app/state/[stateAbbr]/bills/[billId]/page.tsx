@@ -9,9 +9,9 @@ import { prisma } from "@/lib/db";
 import { BillStatus } from "@/types";
 import { isEmailConfigured } from "@/lib/config";
 
-// ─────────────────────────────────────────────
-// Helper: map DB status → UI timeline steps
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Helper: map DB status â†’ UI timeline steps
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function buildTimeline(status: BillStatus, introducedDate: Date, lastActionDate: Date | null) {
   const statusOrder: BillStatus[] = [
@@ -59,15 +59,15 @@ export async function generateMetadata({
     const { billId } = await params;
     const bill = await prisma.bill.findUnique({ where: { id: parseInt(billId, 10) } });
     if (!bill) return { title: "Bill Not Found" };
-    return { title: `${bill.externalId} — ${bill.title}` };
+    return { title: `${bill.externalId} â€” ${bill.title}` };
   } catch {
-    return { title: "Bill — InformedVoter" };
+    return { title: "Bill â€” KnowYourGov" };
   }
 }
 
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Page
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export default async function BillDetailPage({
   params,
@@ -145,17 +145,17 @@ export default async function BillDetailPage({
     subjects,
     sponsor: {
       name: bill.sponsor?.name ?? "Unknown",
-      party: bill.sponsor?.party ?? "—",
+      party: bill.sponsor?.party ?? "â€”",
       district: bill.sponsor?.district
         ? `${bill.sponsor.state?.abbreviation ?? ""}-${bill.sponsor.district}`
-        : (bill.sponsor?.state?.abbreviation ?? "—"),
+        : (bill.sponsor?.state?.abbreviation ?? "â€”"),
     },
     chamber: bill.chamber === "HOUSE" ? "House" : "Senate",
     introducedDate: bill.introducedDate.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
     lastActionDate: bill.lastActionDate
       ? bill.lastActionDate.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
-      : "—",
-    lastAction: bill.aiRiderAnalysis ?? "—",
+      : "â€”",
+    lastAction: bill.aiRiderAnalysis ?? "â€”",
     statusTimeline: timeline,
     riders,
     fullTextUrl: bill.fullTextUrl ?? bill.congressGovUrl ?? "https://congress.gov",
@@ -201,8 +201,8 @@ export default async function BillDetailPage({
             <p className="text-white/60 text-sm">
               Sponsored by {bill.sponsor.name} ({bill.sponsor.party}
               {bill.sponsor.state?.abbreviation ? `-${bill.sponsor.state.abbreviation}` : ""}
-              {bill.sponsor.district ? `-${bill.sponsor.district}` : ""}) ·{" "}
-              {bill.chamber === "HOUSE" ? "House" : "Senate"} · Introduced{" "}
+              {bill.sponsor.district ? `-${bill.sponsor.district}` : ""}) Â·{" "}
+              {bill.chamber === "HOUSE" ? "House" : "Senate"} Â· Introduced{" "}
               {bill.introducedDate.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
             </p>
           )}

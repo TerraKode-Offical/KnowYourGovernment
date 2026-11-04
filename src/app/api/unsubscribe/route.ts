@@ -3,10 +3,10 @@ import { BASE_URL } from "@/lib/resend";
 // Note: This route returns HTML pages, not JSON, so we don't use withErrorHandler here.
 // Errors are handled internally with friendly HTML error pages.
 
-// ─────────────────────────────────────────────
-// GET /api/unsubscribe?token=xxx  → Confirmation page
-// POST /api/unsubscribe?token=xxx → Perform deletion (RFC 8058 one-click)
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// GET /api/unsubscribe?token=xxx  â†’ Confirmation page
+// POST /api/unsubscribe?token=xxx â†’ Perform deletion (RFC 8058 one-click)
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function escapeHtml(text: string): string {
   return text
@@ -25,13 +25,13 @@ function htmlPage(title: string, message: string, status = 200): Response {
 <html lang="en">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>${safeTitle} — InformedVoter</title>
+  <title>${safeTitle} â€” KnowYourGov</title>
 </head>
 <body style="margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f3f4f6;display:flex;justify-content:center;align-items:center;min-height:100vh;">
   <div style="max-width:440px;text-align:center;padding:40px 24px;">
     <h1 style="color:#1B2A4A;font-size:24px;margin:0 0 12px;">${safeTitle}</h1>
     <p style="color:#4b5563;font-size:16px;line-height:1.6;margin:0 0 24px;">${safeMessage}</p>
-    <a href="${BASE_URL}" style="display:inline-block;background:#1B2A4A;color:#fff;text-decoration:none;padding:12px 28px;border-radius:8px;font-weight:600;font-size:15px;">Go to InformedVoter</a>
+    <a href="${BASE_URL}" style="display:inline-block;background:#1B2A4A;color:#fff;text-decoration:none;padding:12px 28px;border-radius:8px;font-weight:600;font-size:15px;">Go to KnowYourGov</a>
   </div>
 </body>
 </html>`,
@@ -64,16 +64,16 @@ async function handleUnsubscribe(request: Request): Promise<Response> {
 <html lang="en">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Unsubscribe — InformedVoter</title>
+  <title>Unsubscribe â€” KnowYourGov</title>
 </head>
 <body style="margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f3f4f6;display:flex;justify-content:center;align-items:center;min-height:100vh;">
   <div style="max-width:440px;text-align:center;padding:40px 24px;">
     <h1 style="color:#1B2A4A;font-size:24px;margin:0 0 12px;">Unsubscribe</h1>
-    <p style="color:#4b5563;font-size:16px;line-height:1.6;margin:0 0 24px;">Click the button below to confirm you want to unsubscribe from InformedVoter emails.</p>
+    <p style="color:#4b5563;font-size:16px;line-height:1.6;margin:0 0 24px;">Click the button below to confirm you want to unsubscribe from KnowYourGov emails.</p>
     <form method="POST" action="${BASE_URL}/api/unsubscribe?token=${encodeURIComponent(token)}">
       <button type="submit" style="display:inline-block;background:#dc2626;color:#fff;text-decoration:none;padding:12px 28px;border-radius:8px;font-weight:600;font-size:15px;border:none;cursor:pointer;">Confirm Unsubscribe</button>
     </form>
-    <p style="color:#9ca3af;font-size:13px;margin-top:16px;">Changed your mind? <a href="${BASE_URL}" style="color:#6b7280;">Go back to InformedVoter</a></p>
+    <p style="color:#9ca3af;font-size:13px;margin-top:16px;">Changed your mind? <a href="${BASE_URL}" style="color:#6b7280;">Go back to KnowYourGov</a></p>
   </div>
 </body>
 </html>`,
@@ -81,12 +81,12 @@ async function handleUnsubscribe(request: Request): Promise<Response> {
       );
     }
 
-    // POST — perform the actual deletion
+    // POST â€” perform the actual deletion
     await prisma.subscriber.delete({ where: { id: subscriber.id } });
 
     return htmlPage(
       "You've Been Unsubscribed",
-      "We're sorry to see you go. You won't receive any more emails from InformedVoter."
+      "We're sorry to see you go. You won't receive any more emails from KnowYourGov."
     );
   } catch (error) {
     console.error("[unsubscribe] Error:", error);

@@ -5,7 +5,7 @@ import { verifyCronSecret } from "@/lib/auth";
 import { withCronErrorHandler, AuthenticationError } from "@/lib/api-error-handler";
 import { logSync } from "@/lib/sync-log";
 
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Cron: sync-social
 //
 // Populates Candidate.socialMedia (twitter / facebook / youtube / instagram)
@@ -14,7 +14,7 @@ import { logSync } from "@/lib/sync-log";
 // stored in contactInfo by sync-members. No API key required.
 //
 // Authorization: Bearer CRON_SECRET
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const SOCIAL_YAML_URL =
   process.env.SOCIAL_YAML_URL ??
@@ -53,7 +53,7 @@ export const GET = withCronErrorHandler(async (request: NextRequest) => {
   const startTime = Date.now();
 
   const res = await fetch(SOCIAL_YAML_URL, {
-    headers: { "User-Agent": "InformedVoter/1.0 (civic data sync)" },
+    headers: { "User-Agent": "KnowYourGov/1.0 (civic data sync)" },
   });
   if (!res.ok) {
     return NextResponse.json(

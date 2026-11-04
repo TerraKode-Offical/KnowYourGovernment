@@ -32,7 +32,7 @@ export default function ComparePage() {
           <Info size={15} className="text-blue-500 shrink-0 mt-0.5" />
           <p>
             <strong>Nonpartisan comparison:</strong> Policy positions are sourced from official candidate statements, voting records, and public interviews.
-            Position summaries are AI-assisted and reviewed for accuracy. InformedVoter does not endorse any candidate.
+            Position summaries are AI-assisted and reviewed for accuracy. KnowYourGov does not endorse any candidate.
           </p>
         </div>
       </div>

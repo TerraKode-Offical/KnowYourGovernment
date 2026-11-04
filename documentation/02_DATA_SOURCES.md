@@ -42,9 +42,8 @@ record a `DataSyncLog` row; freshness is exposed at `/api/health?verbose=1`.
 1. **Voter information is static.** `sync-voter-info` upserts a hardcoded table;
    registration/early-voting/absentee dates are `null`. Verify each row against
    the official state election site and add `sourceUrl`/`verifiedAt`.
-2. **No state-level bills.** LegiScan is not integrated and is Cloudflare-blocked
-   from `iv-app`. State bill pages show federal bills sponsored by that state's
-   delegation.
+2. **No state-level bills.** LegiScan is not integrated (blocked upstream).
+   State bill pages show federal bills sponsored by that state's delegation.
 3. **CourtListener token invalid** (`401`) → disclosures stay empty.
 4. **PAC contributions** return zero rows despite a successful job.
 5. **Cosponsors** are not ingested.

@@ -1,4 +1,4 @@
-# InformedVoter — Security & Data Remediation (2026-11-03)
+# KnowYourGov â€” Security & Data Remediation (2026-11-03)
 
 **Trigger:** election-day traffic (2026 US midterms, Nov 3 2026) and a request to
 verify that all security controls are sound and that every government data
@@ -19,7 +19,7 @@ exposure, and zero backups. All are remediated and verified in production.
 
 | Area | Before | After |
 |---|---|---|
-| Cron pipeline | Every job failed before `curl` (log file owned by root) — **no sync since 2026-10-10** | Log owned by `smsadmin`, `--max-time 900`, 15 jobs scheduled, all verified |
+| Cron pipeline | Every job failed before `curl` (log file owned by root) â€” **no sync since 2026-10-10** | Log owned by `cronuser`, `--max-time 900`, 15 jobs scheduled, all verified |
 | Bill data | Frozen at 2026-10-09 | 7,476 bills; newest action **2026-11-02** |
 | Candidates | 596, **all incumbents**, no challengers | 2,672 (2,604 FEC-linked), 600 incumbents + **2,072 challengers** |
 | Campaign finance | 96 candidates | 190 candidates (193 finance rows) |
@@ -52,14 +52,14 @@ exposure, and zero backups. All are remediated and verified in production.
 ## Critical items you must action
 
 1. **Anthropic, Resend and CourtListener keys are not configured** in
-   `/opt/informedvoter/.env` (empty values). AI summaries, email subscriptions,
+   `/opt/KnowYourGov/.env` (empty values). AI summaries, email subscriptions,
    the digest, and justice financial disclosures therefore do nothing. The app
    now degrades honestly (503 / hidden UI) instead of failing silently, but the
    features require keys from you.
-2. **Rotate `COURTLISTENER_API_TOKEN`** if you intend to use disclosures — the
+2. **Rotate `COURTLISTENER_API_TOKEN`** if you intend to use disclosures â€” the
    current value returns `401`.
 3. **LegiScan is not integrated** despite the `AGENTS.md` claim, and
-   `api.legiscan.com` is Cloudflare-challenged from `iv-app`. State bill pages
+   `api.legiscan.com` is challenge-blocked from the server. State bill pages
    currently show federal bills sponsored by that state's delegation.
 4. **`/local` is empty** (0 municipalities, 0 meetings). It is a shell until a
    municipality seed/import exists.
@@ -71,17 +71,17 @@ exposure, and zero backups. All are remediated and verified in production.
 
 ## Evidence highlights
 
-The cron defect, captured directly on `iv-app`:
+The cron defect, captured directly on the app host:
 
 ```
-$ echo probe >> /var/log/informedvoter-cron.log
-bash: /var/log/informedvoter-cron.log: Permission denied
-$ ls -la /var/log/informedvoter-cron.log
--rw-r--r-- 1 root root 0 Oct  8 11:46 /var/log/informedvoter-cron.log
+$ echo probe >> /var/log/KnowYourGov-cron.log
+bash: /var/log/KnowYourGov-cron.log: Permission denied
+$ ls -la /var/log/KnowYourGov-cron.log
+-rw-r--r-- 1 root root 0 Oct  8 11:46 /var/log/KnowYourGov-cron.log
 ```
 
 Because bash performs the redirect before executing the command, `curl` never
-ran — on any job, for 24 days. `DataSyncLog` confirmed the last successful sync
+ran â€” on any job, for 24 days. `DataSyncLog` confirmed the last successful sync
 was `2026-10-10 11:59`.
 
 Dependency state before remediation:
@@ -96,4 +96,4 @@ Next.js: Unauthenticated RCE in `use cache` functions returning typed arrays (GH
 zod <4.6.6  Severity: high (GHSA-mrhx-c7xc-m3w5)
 ```
 
-After remediation: `npm audit --omit=dev` → `found 0 vulnerabilities`.
+After remediation: `npm audit --omit=dev` â†’ `found 0 vulnerabilities`.

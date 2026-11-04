@@ -44,7 +44,7 @@ plan, status, test report, artifacts.
 | 3.4 | CourtListener disclosures | **Blocked** — invalid token |
 | 3.5 | PAC contribution query | **Open** — returns 0 rows |
 | 3.6 | Cosponsor ingestion | **Open** |
-| 3.7 | State bills (LegiScan) | **Blocked** — Cloudflare challenge from `iv-app` |
+| 3.7 | State bills (LegiScan) | **Blocked** — upstream challenge from the server |
 | 3.8 | Local municipalities seed | **Open** — product decision |
 | 3.9 | AI backlog | **Blocked** — no Anthropic key |
 
@@ -55,7 +55,7 @@ manual cron runs, SQL freshness assertions, backup restore drill, audit.
 
 ## Phase 5 — Deploy (complete)
 
-Pushed `0d6f52a` and `1a43c4b`; rebuilt `iv-app` + `iv-caddy`; health green.
+Pushed `0d6f52a` and `1a43c4b`; rebuilt the app + proxy containers; health green.
 
 ---
 

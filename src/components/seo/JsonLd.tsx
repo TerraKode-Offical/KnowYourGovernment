@@ -1,6 +1,6 @@
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // JSON-LD structured data components for SEO
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 interface JsonLdProps {
   data: Record<string, unknown>;
@@ -23,22 +23,22 @@ export function JsonLd({ data }: JsonLdProps) {
   );
 }
 
-/** Site-wide Organization + WebSite schema — placed in root layout. */
+/** Site-wide Organization + WebSite schema â€” placed in root layout. */
 export function SiteJsonLd() {
   const organization = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "InformedVoter",
+    name: "KnowYourGov",
     url: "https://knowyourgov.us",
     description:
-      "Nonpartisan platform that explains U.S. government — Congress, the Supreme Court, federal agencies, and elections — in plain English.",
-    sameAs: ["https://github.com/iamscott53/InformedVoter"],
+      "Nonpartisan platform that explains U.S. government â€” Congress, the Supreme Court, federal agencies, and elections â€” in plain English.",
+    sameAs: ["https://github.com/TerraKode-Offical/KnowYourGovernment"],
   };
 
   const website = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "InformedVoter",
+    name: "KnowYourGov",
     url: "https://knowyourgov.us",
     description:
       "Your government, in plain English. Track Congress, Supreme Court rulings, federal agency budgets, campaign finance, and your local ballot.",

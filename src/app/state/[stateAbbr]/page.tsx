@@ -21,9 +21,9 @@ import { OfficeType } from "@/types";
 // unknown state abbreviations instead of returning a cached 200.
 export const dynamic = "force-dynamic";
 
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Metadata
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export async function generateMetadata({
   params,
@@ -41,13 +41,13 @@ export async function generateMetadata({
       description: `Civic information for ${stateName}: senators, representatives, bills, elections, and voter resources.`,
     };
   } catch {
-    return { title: "State Voter Dashboard — InformedVoter" };
+    return { title: "State Voter Dashboard â€” KnowYourGov" };
   }
 }
 
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Page
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export default async function StateDashboardPage({
   params,
@@ -169,7 +169,7 @@ export default async function StateDashboardPage({
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* ── Page Header ── */}
+      {/* â”€â”€ Page Header â”€â”€ */}
       <div className="bg-[#1B2A4A] text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           {/* Breadcrumb */}
@@ -203,7 +203,7 @@ export default async function StateDashboardPage({
         </div>
       </div>
 
-      {/* ── Dashboard Grid ── */}
+      {/* â”€â”€ Dashboard Grid â”€â”€ */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <p className="text-sm text-gray-500 mb-8 font-medium uppercase tracking-wider">
           Explore {state.name} Civic Information
@@ -244,17 +244,17 @@ export default async function StateDashboardPage({
           </div>
         </AnimatedSection>
 
-        {/* ── Quick Stats Bar ── */}
+        {/* â”€â”€ Quick Stats Bar â”€â”€ */}
         <div className="mt-12 bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
           <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-5">
-            At a Glance — {state.name}
+            At a Glance â€” {state.name}
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 divide-x divide-gray-100">
             {[
-              { label: "Bills Sponsored",    value: billCount > 0 ? String(billCount) : "—" },
+              { label: "Bills Sponsored",    value: billCount > 0 ? String(billCount) : "â€”" },
               { label: "Senators",           value: String(senatorCount || 2) },
-              { label: "Representatives",    value: repCount > 0 ? String(repCount) : "—" },
-              { label: "Upcoming Elections", value: electionCount > 0 ? String(electionCount) : "—" },
+              { label: "Representatives",    value: repCount > 0 ? String(repCount) : "â€”" },
+              { label: "Upcoming Elections", value: electionCount > 0 ? String(electionCount) : "â€”" },
             ].map((stat) => (
               <div key={stat.label} className="pl-6 first:pl-0">
                 <div className="text-2xl font-bold text-[#1B2A4A]">{stat.value}</div>

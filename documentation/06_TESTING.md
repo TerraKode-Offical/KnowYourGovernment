@@ -53,7 +53,7 @@ image proxy, CSP beacon, sitemap, subscribe rate limit (429).
 - [ ] Cron: run `sync-elections` manually → 200 + `DataSyncLog` row
 - [ ] 404 route returns a real 404
 - [ ] No horizontal overflow at 390 px width
-- [ ] `docker logs iv-app` has no unexpected errors
+- [ ] `docker logs <app-container>` has no unexpected errors
 
 ## Adding tests
 

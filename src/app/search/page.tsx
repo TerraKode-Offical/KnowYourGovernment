@@ -2,18 +2,18 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/db";
 
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // /search?q=<term>
 // Server-rendered full-text search across bills and candidates.
 // Referenced by the site-wide JSON-LD SearchAction.
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Search",
   description:
-    "Search federal bills and candidates across InformedVoter in plain English.",
+    "Search federal bills and candidates across KnowYourGov in plain English.",
   robots: { index: false, follow: true },
 };
 
@@ -179,7 +179,7 @@ export default async function SearchPage({
                     {b.title}
                   </Link>
                   <p className="text-xs text-gray-500 mt-1">
-                    {b.chamber} · {b.status} · {b.externalId}
+                    {b.chamber} Â· {b.status} Â· {b.externalId}
                   </p>
                 </li>
               ))}
@@ -206,7 +206,7 @@ export default async function SearchPage({
                   </Link>
                   <p className="text-xs text-gray-500 mt-1">
                     {c.party}
-                    {c.district ? ` · District ${c.district}` : ""} · {c.officeType}
+                    {c.district ? ` Â· District ${c.district}` : ""} Â· {c.officeType}
                   </p>
                 </li>
               ))}

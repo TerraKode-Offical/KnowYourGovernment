@@ -22,7 +22,7 @@ export interface ConsoleCollector {
 function isIgnored(text: string): boolean {
   return (
     text.includes("favicon") ||
-    text.includes("analytics.knowyourgov") ||
+    /analytics\./.test(text) ||
     text.includes("cloudflareinsights") ||
     text.includes("integrity mismatch") ||
     text.includes("Could not resolve hostname") ||

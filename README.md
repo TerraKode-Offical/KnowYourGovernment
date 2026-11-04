@@ -3,9 +3,9 @@
 **Your government, in plain English.**
 
 A nonpartisan civic-information platform covering Congress, the Supreme Court,
-federal agencies, campaign finance, elections, and local government. Data is
-pulled from official government APIs and rendered with plain-language
-explanations — no spin, no tracking, no account required.
+federal agencies, campaign finance, elections, and local government. Data comes
+from official government APIs and is explained without jargon or spin. No
+account is required.
 
 **Live:** [knowyourgov.us](https://knowyourgov.us)
 
@@ -23,7 +23,7 @@ explanations — no spin, no tracking, no account required.
 | **Local government** | City council meetings, agendas, and first-amendment speaking rules |
 | **State hubs** | Senators, representatives, governor, bills, elections, and voter info per state |
 
-Every page is server-rendered, accessible, and works without JavaScript for core
+Pages are server-rendered, accessible, and readable without JavaScript for core
 content.
 
 ---
@@ -37,34 +37,22 @@ content.
 | Styling | Tailwind CSS v4 |
 | Database | PostgreSQL 17 via Prisma 5.22 |
 | Cache / rate limit | Redis 7 (`ioredis`) |
-| AI (optional) | Anthropic Claude (`claude-haiku-4-5`, `claude-sonnet-4-5`) |
+| AI (optional) | Anthropic Claude |
 | Email (optional) | Resend |
-| Hosting | Self-hosted Proxmox: `iv-app` + `iv-data`, Docker Compose, Caddy, Cloudflare |
 
 Optional integrations degrade gracefully: without an Anthropic key the AI
-features are hidden and cron jobs skip; without a Resend key the subscribe UI
-is hidden and the API returns `503`.
+features are hidden and scheduled jobs skip; without a Resend key the subscribe
+form is hidden and the API returns `503`.
 
 ---
 
-## Architecture
+## How it works
 
-```
-                    Cloudflare (proxied, Full strict)
-                                |
-                    Caddy (TLS, Cloudflare Origin CA)
-                                |
-                  Next.js standalone container (iv-app)
-                   |            |              |
-              Prisma        ioredis        Anthropic / Resend
-                   |            |           (optional, outbound)
-                   v            v
-        PostgreSQL 17     Redis 7
-             (iv-data, VPC 10.39.112.20 only — never public)
-```
-
-Host cron on `iv-app` calls `/api/cron/*` with a Bearer secret. Every job writes
-an audit row to `DataSyncLog`; `/api/health?verbose=1` reports per-job freshness.
+The app is a Next.js server that reads from PostgreSQL through Prisma. Redis
+backs per-IP rate limiting and distributed locks. Scheduled jobs call the
+`/api/cron/*` endpoints with a bearer secret, pull from government APIs, and
+upsert records idempotently; each run records an audit row that is exposed at
+`/api/health?verbose=1`.
 
 ---
 
@@ -116,7 +104,7 @@ curl -fsS -H "Authorization: Bearer $CRON_SECRET" \
 | Variable | Required | Purpose |
 |---|---|---|
 | `DATABASE_URL` | yes | PostgreSQL connection string |
-| `REDIS_URL` | yes (prod) | Rate limiting + distributed locks; fails open if absent |
+| `REDIS_URL` | yes | Rate limiting and distributed locks |
 | `CRON_SECRET` | yes | Bearer secret for `/api/cron/*` and `/api/ai/*` |
 | `NEXT_PUBLIC_BASE_URL` | yes | Canonical origin (metadata, email links, CSRF checks) |
 | `CONGRESS_GOV_API_KEY` | for bills/members | Congress.gov v3 |
@@ -124,11 +112,10 @@ curl -fsS -H "Authorization: Bearer $CRON_SECRET" \
 | `GOOGLE_CIVIC_API_KEY` | for polling places | Google Civic Information API |
 | `COURTLISTENER_API_TOKEN` | optional | Justice financial disclosures |
 | `ANTHROPIC_API_KEY` | optional | AI summaries, rider detection, speaking templates |
-| `RESEND_API_KEY` | optional | Verification + digest email |
-| `NEXT_PUBLIC_UMAMI_*` | optional | Self-hosted analytics |
+| `RESEND_API_KEY` | optional | Verification and digest email |
 | `ALLOW_MANUAL_CRON` | dev only | **Never in production** |
 
-See [`.env.example`](./.env.example) for the full annotated list.
+See [`.env.example`](./.env.example) for the annotated list.
 
 ---
 
@@ -143,7 +130,7 @@ See [`.env.example`](./.env.example) for the full annotated list.
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm test` | Vitest unit tests |
 | `npm run test:coverage` | Coverage report |
-| `npm run test:e2e` | Playwright suite (defaults to the live site) |
+| `npm run test:e2e` | Playwright suite |
 | `npm run test:e2e:api` | API contract suite only |
 | `npm run db:push` | Sync Prisma schema |
 | `npm run db:seed` | Seed states, elections, justices, agencies |
@@ -175,7 +162,7 @@ Coverage, known gaps, and verification queries:
 npm run typecheck
 npm run lint
 npm test
-npm run test:e2e:api        # against https://knowyourgov.us by default
+npm run test:e2e:api
 E2E_BASE_URL=http://localhost:3000 npm run test:e2e
 ```
 
@@ -186,15 +173,14 @@ Current status: **53 unit tests**, **23 API contract tests**, **49 UI tests**
 
 ## Security
 
-- Rate limiting per IP (Redis), strict limits on subscribe and AI endpoints
-- Cron endpoints require a constant-time Bearer check at both middleware and handler
-- Same-origin + JSON + size caps + honeypot on all public writes
+- Per-IP rate limiting, with stricter limits on subscribe and AI endpoints
+- Cron endpoints require a constant-time bearer check at two layers
+- Same-origin, JSON-only, size-capped writes with a honeypot
 - `sanitize-html` allowlist for external HTML; JSON-LD escaping
 - Strict CSP, HSTS, `frame-ancestors 'none'`, no `X-Powered-By`
-- Containers run non-root; database and Redis are VPC-only
-- Nightly encrypted-at-rest-by-host database backups with 14-day rotation
+- Non-root containers; the database and cache are not publicly reachable
+- Nightly database backups with 14-day rotation
 
-Full review: [`documentation/security/2026-11-03/`](./documentation/security/2026-11-03/).
 To report a vulnerability, see [`SECURITY.md`](./SECURITY.md).
 
 ---
@@ -205,7 +191,7 @@ To report a vulnerability, see [`SECURITY.md`](./SECURITY.md).
 src/
   app/                 Pages + API routes (App Router)
     api/cron/          Scheduled sync + analysis jobs
-    api/ai/            On-demand AI endpoints (Bearer auth)
+    api/ai/            On-demand AI endpoints (bearer auth)
     state/[stateAbbr]/ State hubs
     judicial/          SCOTUS dashboard, cases, justices
     local/             Local government hub
@@ -214,10 +200,10 @@ src/
   hooks/               Client hooks
   types/               Shared types
 prisma/                Schema + seeds
-public/                Static assets, images, .well-known
-scripts/               deploy, backup, cron setup, OG image generator
+public/                Static assets and .well-known
+scripts/               Backup, cron setup, OG image generator
 e2e/                   Playwright specs
-documentation/         Architecture, data, deployment, ops, security
+documentation/         Architecture, data, security, testing, API
 ```
 
 ---
@@ -226,11 +212,9 @@ documentation/         Architecture, data, deployment, ops, security
 
 | Document | Contents |
 |---|---|
-| [01 Architecture](./documentation/01_ARCHITECTURE.md) | Request flow, data flow, runtime model |
+| [01 Architecture](./documentation/01_ARCHITECTURE.md) | Request flow, rendering, data flow |
 | [02 Data Sources](./documentation/02_DATA_SOURCES.md) | APIs, schedules, coverage, gaps |
-| [03 Deployment](./documentation/03_DEPLOYMENT.md) | Proxmox, Docker, Caddy, cron, backups |
-| [04 Operations](./documentation/04_OPERATIONS.md) | Runbooks: sync, restore, rotate secrets |
-| [05 Security](./documentation/05_SECURITY.md) | Controls, accepted risks, review history |
+| [05 Security](./documentation/05_SECURITY.md) | Controls, accepted risks |
 | [06 Testing](./documentation/06_TESTING.md) | Test strategy and commands |
 | [07 API](./documentation/07_API.md) | Endpoint reference |
 | [08 Contributing](./documentation/08_CONTRIBUTING.md) | Conventions and review checklist |

@@ -1,11 +1,11 @@
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Request hardening for public write endpoints
 //
 // Browsers always send Origin on cross-origin POSTs; requiring it to match
 // the site origin blocks classic CSRF. Content-Type is pinned to JSON so a
 // cross-site HTML form (which can only send urlencoded/plain text) cannot
 // reach the handler. Bodies are size-capped to prevent memory abuse.
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 import { ForbiddenError, ValidationError } from "@/lib/errors";
 
@@ -27,12 +27,12 @@ function siteOrigin(): string {
 export function assertSameOrigin(request: Request): void {
   const origin = request.headers.get("origin");
   if (origin && origin !== siteOrigin()) {
-    throw new ForbiddenError("This request must come from the InformedVoter site.");
+    throw new ForbiddenError("This request must come from the KnowYourGov site.");
   }
 
   const fetchSite = request.headers.get("sec-fetch-site");
   if (fetchSite === "cross-site") {
-    throw new ForbiddenError("This request must come from the InformedVoter site.");
+    throw new ForbiddenError("This request must come from the KnowYourGov site.");
   }
 }
 

@@ -1,14 +1,13 @@
-# ═══════════════════════════════════════════════════════════════════════════
-# InformedVoter — Application tier (VM `iv-app`)
-#   Next.js standalone app + Caddy (TLS via Cloudflare DNS-01) + Umami
-#   NICs: VLAN 10 mgmt + VLAN 100 (public DNAT origin) + VPC (vmbr2)
+# â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+# KnowYourGov â€” Application tier
+#   Next.js standalone app + Caddy reverse proxy + optional Umami analytics
 # Deploy: docker compose -f docker-compose.app.yml up -d --build
-# ═══════════════════════════════════════════════════════════════════════════
+# â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 name: iv-app
 
 services:
-  # ── Next.js application ──────────────────────────────────────────────────
+  # â”€â”€ Next.js application â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   app:
     build:
       context: .
@@ -17,7 +16,7 @@ services:
         NEXT_PUBLIC_BASE_URL: ${NEXT_PUBLIC_BASE_URL}
         NEXT_PUBLIC_UMAMI_SCRIPT_URL: ${NEXT_PUBLIC_UMAMI_SCRIPT_URL}
         NEXT_PUBLIC_UMAMI_WEBSITE_ID: ${NEXT_PUBLIC_UMAMI_WEBSITE_ID}
-    image: informedvoter/app:latest
+    image: KnowYourGov/app:latest
     container_name: iv-app
     restart: unless-stopped
     env_file: .env
@@ -39,12 +38,12 @@ services:
       start_period: 20s
       retries: 3
 
-  # ── Caddy reverse proxy + TLS (Let's Encrypt DNS-01 via Cloudflare) ────────
+  # â”€â”€ Caddy reverse proxy + TLS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   caddy:
     build:
       context: ./docker/caddy
       dockerfile: Dockerfile
-    image: informedvoter/caddy-cloudflare:latest
+    image: KnowYourGov/caddy-cloudflare:latest
     container_name: iv-caddy
     restart: unless-stopped
     env_file: .env
@@ -52,7 +51,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./docker/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ${CADDYFILE:-./docker/Caddyfile}:/etc/caddy/Caddyfile:ro
       - ./docker/certs:/certs:ro
       - caddy_data:/data
       - caddy_config:/config
@@ -61,7 +60,7 @@ services:
     networks:
       - iv
 
-  # ── Umami analytics (database lives on `iv-data`) ─────────────────────────
+  # â”€â”€ Umami analytics (database URL configured via .env) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   umami:
     image: ghcr.io/umami-software/umami:postgresql-latest
     container_name: iv-umami

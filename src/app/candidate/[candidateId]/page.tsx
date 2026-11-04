@@ -18,19 +18,19 @@ import CandidateTabs from "@/components/features/CandidateTabs";
 import { prisma } from "@/lib/db";
 import { OfficeType } from "@/types";
 
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Helper: human-readable office title
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function officeLabel(type: OfficeType, district?: string | null): string {
   switch (type) {
     case OfficeType.PRESIDENT:        return "President of the United States";
     case OfficeType.US_SENATOR:       return "U.S. Senator";
     case OfficeType.US_REPRESENTATIVE:
-      return district ? `U.S. Representative — District ${district}` : "U.S. Representative";
+      return district ? `U.S. Representative â€” District ${district}` : "U.S. Representative";
     case OfficeType.GOVERNOR:         return "Governor";
-    case OfficeType.STATE_SENATOR:    return district ? `State Senator — District ${district}` : "State Senator";
-    case OfficeType.STATE_REP:        return district ? `State Representative — District ${district}` : "State Representative";
+    case OfficeType.STATE_SENATOR:    return district ? `State Senator â€” District ${district}` : "State Senator";
+    case OfficeType.STATE_REP:        return district ? `State Representative â€” District ${district}` : "State Representative";
     default:                          return "Elected Official";
   }
 }
@@ -49,15 +49,15 @@ export async function generateMetadata({
       select: { name: true, officeType: true, district: true },
     });
     if (!candidate) return { title: "Candidate Not Found" };
-    return { title: `${candidate.name} — ${officeLabel(candidate.officeType as OfficeType, candidate.district)}` };
+    return { title: `${candidate.name} â€” ${officeLabel(candidate.officeType as OfficeType, candidate.district)}` };
   } catch {
-    return { title: "Candidate — InformedVoter" };
+    return { title: "Candidate â€” KnowYourGov" };
   }
 }
 
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Page
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export default async function CandidatePage({
   params,
@@ -176,7 +176,7 @@ export default async function CandidatePage({
                 <PartyBadge party={candidate.party} showFullName size="md" />
               </div>
               <p className="text-white/70 mb-1">
-                {office} · {stateAbbr}
+                {office} Â· {stateAbbr}
               </p>
               {candidate.incumbentSince && (
                 <p className="text-white/50 text-sm">
@@ -187,7 +187,7 @@ export default async function CandidatePage({
                     year: "numeric",
                   })}
                   {candidate.termEnds && (
-                    <> · Term ends: {candidate.termEnds.toLocaleDateString("en-US", { month: "long", year: "numeric" })}</>
+                    <> Â· Term ends: {candidate.termEnds.toLocaleDateString("en-US", { month: "long", year: "numeric" })}</>
                   )}
                 </p>
               )}

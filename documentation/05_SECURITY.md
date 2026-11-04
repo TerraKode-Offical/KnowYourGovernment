@@ -1,4 +1,4 @@
-# 05 — Security
+# 05 â€” Security
 
 ## Threat model
 
@@ -7,11 +7,11 @@
 | Anonymous internet user | Read pages, call public APIs | Rate limits, input validation, read-only surface |
 | Abusive client | Flood, enumerate, scrape | Per-IP limits, result caps, no auth endpoints to brute force |
 | Spam bot | Fill public forms | Honeypot, origin check, per-IP and per-address cooldowns |
-| Network attacker | Intercept traffic | TLS (Cloudflare Full strict + Origin CA), HSTS preload |
+| Network attacker | Intercept traffic | TLS at the CDN, HSTS preload |
 | Compromised dependency | Supply chain | Pinned lockfile, `npm ci`, `npm audit` gate |
-| Insider / host access | Read env, DB | VPC-only DB, `600` env, rotated secrets, least-privilege containers |
+| Insider / host access | Read env, DB | Network-isolated DB, `600` env, rotated secrets, least-privilege containers |
 
-There is no user account system, no admin panel, and no server actions — the
+There is no user account system, no admin panel, and no server actions â€” the
 authenticated surface is limited to cron/AI endpoints protected by a shared
 Bearer secret.
 
@@ -47,7 +47,7 @@ Redis fixed windows. Fails open if Redis is down (documented trade-off).
 
 ```
 Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'
-  'unsafe-eval' https://analytics.knowyourgov.us https://static.cloudflareinsights.com;
+  'unsafe-eval' https://<analytics-host> https://<cdn-insights-host>;
   frame-ancestors 'none'; base-uri 'self'; form-action 'self'
 Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
 X-Frame-Options: DENY
@@ -61,9 +61,8 @@ No `X-Powered-By`.
 ### Infrastructure
 
 - App container runs as `nextjs` (uid 1001), not root.
-- Postgres and Redis bind only to `10.39.112.20` (VPC).
-- App port binds to `127.0.0.1:3000`.
-- Origin DNAT is source-locked to Cloudflare ranges.
+- PostgreSQL and Redis bind only to a private interface.
+- The app port is not published publicly; only the reverse proxy is exposed.
 - Nightly `pg_dump` with 14-day rotation; restore drills performed.
 
 ## Accepted risks
@@ -71,7 +70,7 @@ No `X-Powered-By`.
 | Risk | Rationale |
 |---|---|
 | Rate limiter fails open without Redis | Availability for a civic site |
-| `cf-connecting-ip` trusted | Origin only reachable via Cloudflare |
+| `cf-connecting-ip` trusted | The origin is only reachable through the CDN |
 | CSP `'unsafe-inline'` / `'unsafe-eval'` | Next.js runtime requirement; nonce CSP planned |
 | Shared `CRON_SECRET` (not per-job) | Small number of trusted callers; rotation is simple |
 
@@ -79,15 +78,15 @@ No `X-Powered-By`.
 
 | Secret | Location | Rotation |
 |---|---|---|
-| `DATABASE_URL` password | `iv-app` `.env`, `iv-data` `.env` | `ALTER ROLE` + both envs |
+| `DATABASE_URL` password | app `.env`, data `.env` | `ALTER ROLE` + both envs |
 | `REDIS_URL` password | same | `requirepass` + both envs |
-| `CRON_SECRET` | `iv-app` `.env` + crontab | see runbook |
-| API keys | `iv-app` `.env` | provider dashboard |
-| Origin CA cert/key | `iv-app` `docker/certs/` | Cloudflare dashboard |
+| `CRON_SECRET` | app `.env` + crontab | see runbook |
+| API keys | app `.env` | provider dashboard |
+| TLS certificate/key | `docker/certs/` | certificate authority |
 
 ## Review history
 
-- **2026-11-03** — full review and remediation:
+- **2026-11-03** â€” full review and remediation:
   [`security/2026-11-03/`](./security/2026-11-03/). Fixed a dead cron pipeline,
   missing backups, critical dependency advisories, an exposed secret, missing
   challenger data, and public-write abuse controls.

@@ -1,24 +1,16 @@
 # ═══════════════════════════════════════════════════════════════════════════
-# InformedVoter — Caddyfile
-# TLS uses a single Cloudflare Origin CA certificate covering every project
-# domain (SANs: 6 apexes + wildcards), mounted at /certs. Cloudflare SSL mode
-# must be "Full (strict)" on all zones.
+# KnowYourGov — Caddyfile
+# Serve the site behind a TLS reverse proxy. Set SITE_DOMAIN (and
+# CERT_FILE/CERT_KEY if you use custom certificates) in your `.env`.
+# The app container is reachable as `app:3000` on the compose network.
 # ═══════════════════════════════════════════════════════════════════════════
 
 {
-	email admin@knowyourgov.us
+	email admin@example.com
 }
 
-# ── Main site: all project domains ──────────────────────────────────────────
-knowyourgov.us www.knowyourgov.us govguide.online www.govguide.online governmentmadeclear.com www.governmentmadeclear.com govmadeclear.com www.govmadeclear.com knowourgov.com www.knowourgov.com knowyourgov.online www.knowyourgov.online {
+# ── Main site ────────────────────────────────────────────────────────────────
+{$SITE_DOMAIN:localhost} {
 	encode zstd gzip
-	tls /certs/civicsites.pem /certs/civicsites.key
 	reverse_proxy app:3000
-}
-
-# ── Umami analytics ─────────────────────────────────────────────────────────
-analytics.knowyourgov.us {
-	encode zstd gzip
-	tls /certs/civicsites.pem /certs/civicsites.key
-	reverse_proxy umami:3000
 }

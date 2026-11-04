@@ -1,8 +1,7 @@
-# Test Report — 2026-11-03
+# Test Report â€” 2026-11-03
 
-Environment: Windows workstation (Node 22) for build/test; `iv-app`
-(`10.10.10.130`) for deployment and live probes; `iv-data`
-(`10.10.10.131`) for database assertions.
+Environment: Windows workstation (Node 22) for build/test; the deployed app
+host for deployment and live probes; the database host for database assertions.
 
 ---
 
@@ -33,10 +32,10 @@ Includes 15 new tests covering `assertSameOrigin`, `assertJsonContentType`,
 23 passed (31.6s)
 ```
 
-Covers: health, bills limit cap, invalid chamber → 400, unknown state → 404,
-invalid officeType → 400, search validation, SCOTUS term validation,
-district-lookup/polling-places missing address → 400, subscribe invalid email →
-400, local endpoints structured 400s, AI/cron auth 401s, `?manual=true` → 403,
+Covers: health, bills limit cap, invalid chamber â†’ 400, unknown state â†’ 404,
+invalid officeType â†’ 400, search validation, SCOTUS term validation,
+district-lookup/polling-places missing address â†’ 400, subscribe invalid email â†’
+400, local endpoints structured 400s, AI/cron auth 401s, `?manual=true` â†’ 403,
 congress.gov image proxy, CSP analytics beacon, sitemap, subscribe rate limit.
 
 ## 4. Live UI suite (Playwright, Chromium)
@@ -64,10 +63,10 @@ All run against `http://localhost:3000` with the rotated Bearer secret.
 | `sync-voter-info` | 200 | 50 upserted |
 | `sync-local-meetings` | 200 | 0 (no municipalities) |
 | `sync-pac-contributions` | 200 | 0 contributions, 30 candidates, 403 s |
-| `analyze-bills` | 200 | 0 analyzed, 10 errors (no API key) → now skips cleanly |
-| `analyze-candidates` | 200 | 0 analyzed, 50 errors (no API key) → now skips cleanly |
+| `analyze-bills` | 200 | 0 analyzed, 10 errors (no API key) â†’ now skips cleanly |
+| `analyze-candidates` | 200 | 0 analyzed, 50 errors (no API key) â†’ now skips cleanly |
 | `analyze-cases` | 200 | no cases needed |
-| `sync-candidates` (new) | 200 | 2,660 seen → 2,076 created, 574 updated, 10 skipped, 0 errors, 44 s |
+| `sync-candidates` (new) | 200 | 2,660 seen â†’ 2,076 created, 574 updated, 10 skipped, 0 errors, 44 s |
 
 ## 6. Live security probes (production)
 
@@ -90,7 +89,7 @@ All run against `http://localhost:3000` with the rotated Bearer secret.
 A temporary `* * * * *` job was installed, allowed to fire, then removed:
 
 ```
-$ tail -3 /var/log/informedvoter-cron.log
+$ tail -3 /var/log/KnowYourGov-cron.log
 cron-heartbeat-ok
 cron-heartbeat-ok
 $ crontab -l | grep -c api/cron
@@ -100,17 +99,17 @@ $ crontab -l | grep -c api/cron
 Syslog confirms the scheduler executing as the right user:
 
 ```
-iv-app CRON[459125]: (smsadmin) CMD (echo cron-heartbeat-ok >> /var/log/informedvoter-cron.log 2>&1)
+<host> CRON[459125]: (cronuser) CMD (echo cron-heartbeat-ok >> /var/log/KnowYourGov-cron.log 2>&1)
 ```
 
 This proves the original failure mode (redirect denied) is gone and that cron
-can write the log as `smsadmin`.
+can write the log as `cronuser`.
 
 ## 7. Headers (production)
 
 ```
-content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' …
-  img-src 'self' data: https://theunitedstates.io https://bioguide.congress.gov https://www.congress.gov https://congress.gov https://*.oyez.org …
+content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' â€¦
+  img-src 'self' data: https://theunitedstates.io https://bioguide.congress.gov https://www.congress.gov https://congress.gov https://*.oyez.org â€¦
   frame-ancestors 'none'; base-uri 'self'; form-action 'self'
 strict-transport-security: max-age=31536000; includeSubDomains; preload
 x-frame-options: DENY
@@ -149,15 +148,15 @@ members            success  539   2026-11-03 20:02:52
 ## 9. Backup / restore drill
 
 ```
-[backup] Dumping informedvoter → /var/backups/informedvoter/informedvoter-20261103-202529.dump.gz
+[backup] Dumping KnowYourGov â†’ /var/backups/KnowYourGov/KnowYourGov-20261103-202529.dump.gz
 [backup] OK (1.6M)
-→ restored into iv_restore_test: Bill 7476, Candidate 596
-→ restore-verified
+â†’ restored into iv_restore_test: Bill 7476, Candidate 596
+â†’ restore-verified
 ```
 
 ## 10. Regression risks checked
 
-- New FEC candidates render: `GET /candidate/3234` → **200** (55 KB).
-- State representatives page with 2,672 candidates: `GET /state/MI/representatives` → **200** (272 KB).
+- New FEC candidates render: `GET /candidate/3234` â†’ **200** (55 KB).
+- State representatives page with 2,672 candidates: `GET /state/MI/representatives` â†’ **200** (272 KB).
 - Subscribe form hidden when email is unconfigured (server-rendered layout).
 - Cron auth still enforced after secret rotation (old secret rejected).

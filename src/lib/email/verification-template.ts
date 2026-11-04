@@ -31,19 +31,19 @@ export function buildVerificationEmail(
   const verifyUrl = `${BASE_URL}/api/subscribe/verify?token=${encodeURIComponent(token)}`;
 
   return {
-    subject: `Confirm your InformedVoter subscription — ${stateName}`,
+    subject: `Confirm your KnowYourGov subscription â€” ${stateName}`,
     html: `<!DOCTYPE html>
 <html lang="en">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width"></head>
 <body style="margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f3f4f6;">
   <div style="max-width:520px;margin:40px auto;background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.1);">
     <div style="background:#1B2A4A;padding:24px 32px;">
-      <h1 style="margin:0;color:#ffffff;font-size:20px;font-weight:700;">InformedVoter</h1>
+      <h1 style="margin:0;color:#ffffff;font-size:20px;font-weight:700;">KnowYourGov</h1>
     </div>
     <div style="padding:32px;">
       <h2 style="margin:0 0 12px;color:#1B2A4A;font-size:18px;">Confirm your subscription</h2>
       <p style="color:#4b5563;font-size:15px;line-height:1.6;margin:0 0 8px;">
-        You asked for updates about <strong>${escapeHtml(stateName)}</strong> — bills, election deadlines,
+        You asked for updates about <strong>${escapeHtml(stateName)}</strong> â€” bills, election deadlines,
         and Supreme Court decisions, explained in plain English.
       </p>
       <p style="color:#4b5563;font-size:15px;line-height:1.6;margin:0 0 24px;">

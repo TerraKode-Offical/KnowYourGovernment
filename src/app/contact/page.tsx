@@ -5,9 +5,9 @@ import { ChevronRight, Mail, Github, Globe, AlertTriangle } from "lucide-react";
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
-  title: "Contact Us — InformedVoter",
+  title: "Contact Us â€” KnowYourGov",
   description:
-    "Get in touch with the InformedVoter team. Report corrections, ask questions, or contribute to our open-source project.",
+    "Get in touch with the KnowYourGov team. Report corrections, ask questions, or contribute to our open-source project.",
 };
 
 export default function ContactPage() {
@@ -43,14 +43,14 @@ export default function ContactPage() {
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 sm:p-8">
           <h2 className="text-2xl font-bold text-[#1B2A4A] mb-4">Open-Source Project</h2>
           <p className="text-gray-600 leading-relaxed mb-6">
-            InformedVoter is an open-source project dedicated to providing nonpartisan civic
+            KnowYourGov is an open-source project dedicated to providing nonpartisan civic
             information to every American. We believe that transparent, accessible civic tools
-            should be built in the open — and we welcome contributions from developers,
+            should be built in the open â€” and we welcome contributions from developers,
             designers, data analysts, and civic-minded individuals.
           </p>
 
           <a
-            href="https://github.com/iamscott53/InformedVoter"
+            href="https://github.com/TerraKode-Offical/KnowYourGovernment"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-3 px-5 py-3 bg-[#1B2A4A] text-white rounded-xl
@@ -101,7 +101,7 @@ export default function ContactPage() {
             </a>
 
             <a
-              href="https://github.com/iamscott53/InformedVoter"
+              href="https://github.com/TerraKode-Offical/KnowYourGovernment"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-3 p-4 bg-gray-50 border border-gray-200 rounded-xl
@@ -135,7 +135,7 @@ export default function ContactPage() {
         {/* Disclaimer */}
         <div className="text-center">
           <p className="text-xs text-gray-400">
-            InformedVoter is not affiliated with any government agency or political organization.
+            KnowYourGov is not affiliated with any government agency or political organization.
           </p>
         </div>
       </div>

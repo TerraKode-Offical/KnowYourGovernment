@@ -9,18 +9,18 @@ import Navigation from "./Navigation";
 import StateSelector from "@/components/ui/StateSelector";
 import { useUserState } from "@/hooks/useUserState";
 
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Types
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 interface NavItem {
   href: string;
   label: string;
 }
 
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Constants
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const NAV_ITEMS: NavItem[] = [
   { href: "/",               label: "Home"        },
@@ -35,9 +35,9 @@ const NAV_ITEMS: NavItem[] = [
 /** Paths that need `/state/{abbr}` prepended */
 const STATE_PATHS = new Set(["/bills", "/elections", "/voter-info"]);
 
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Component
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export default function Header() {
   const pathname = usePathname();
@@ -45,7 +45,7 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const { userState } = useUserState();
 
-  /** Resolve a nav item href — prepend `/state/{abbr}` for state-scoped pages,
+  /** Resolve a nav item href â€” prepend `/state/{abbr}` for state-scoped pages,
    *  or link to the homepage map if no state is selected */
   const resolveHref = (href: string) => {
     if (!STATE_PATHS.has(href)) return href;
@@ -70,12 +70,12 @@ export default function Header() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
 
-            {/* ── Logo ── */}
+            {/* â”€â”€ Logo â”€â”€ */}
             <Link
               href="/"
               className="flex items-center gap-2.5 group flex-shrink-0 focus-visible:outline-none
                          focus-visible:ring-2 focus-visible:ring-white/50 rounded-lg px-1"
-              aria-label="InformedVoter — Home"
+              aria-label="KnowYourGov â€” Home"
             >
               <span
                 className="flex items-center justify-center w-8 h-8 rounded-lg
@@ -92,7 +92,7 @@ export default function Header() {
               </span>
             </Link>
 
-            {/* ── Desktop nav ── */}
+            {/* â”€â”€ Desktop nav â”€â”€ */}
             <nav
               className="hidden md:flex items-center gap-1"
               aria-label="Main navigation"
@@ -130,9 +130,9 @@ export default function Header() {
               })}
             </nav>
 
-            {/* ── Right side actions ── */}
+            {/* â”€â”€ Right side actions â”€â”€ */}
             <div className="flex items-center gap-2">
-              {/* State selector — hidden on very small screens */}
+              {/* State selector â€” hidden on very small screens */}
               <div className="hidden sm:block">
                 <StateSelector />
               </div>

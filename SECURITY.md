@@ -20,7 +20,7 @@ good-faith research that respects user privacy and avoids service disruption.
 In scope: `https://knowyourgov.us`, its API routes, and this repository.
 
 Out of scope: denial-of-service testing against production, social engineering,
-physical access, and third-party services (Cloudflare, GitHub, government APIs).
+physical access, and third-party services (CDN, code hosting, government APIs).
 
 ## Current controls
 
@@ -42,7 +42,7 @@ physical access, and third-party services (Cloudflare, GitHub, government APIs).
 
 - The rate limiter **fails open** if Redis is unavailable (availability choice).
 - `cf-connecting-ip` is trusted because the origin is only reachable through
-  Cloudflare (DNAT source-locked).
+  the CDN (origin traffic is source-locked).
 - CSP allows `'unsafe-inline'`/`'unsafe-eval'` for scripts (Next.js runtime);
   nonce-based CSP is a planned follow-up.
 

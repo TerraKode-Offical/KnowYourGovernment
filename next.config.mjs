@@ -1,4 +1,26 @@
 /** @type {import('next').NextConfig} */
+// Analytics hosts are configurable: set NEXT_PUBLIC_UMAMI_SCRIPT_URL (origin is
+// added to script-src/connect-src automatically) and CSP_CF_INSIGHTS=true if
+// you use Cloudflare's RUM beacon. Nothing is hardcoded here.
+
+const umamiOrigin = (() => {
+  try {
+    return process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL
+      ? new URL(process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL).origin
+      : null;
+  } catch {
+    return null;
+  }
+})();
+const allowCfInsights = process.env.CSP_CF_INSIGHTS !== "false";
+const scriptExtras = [
+  ...(umamiOrigin ? [umamiOrigin] : []),
+  ...(allowCfInsights ? ["https://static.cloudflareinsights.com"] : []),
+].join(" ");
+const connectExtras = [
+  ...(umamiOrigin ? [umamiOrigin] : []),
+  ...(allowCfInsights ? ["https://cloudflareinsights.com"] : []),
+].join(" ");
 
 const securityHeaders = [
   // Prevent the page from being embedded in iframes (clickjacking)
@@ -28,12 +50,12 @@ const securityHeaders = [
       // NOTE: 'unsafe-inline' and 'unsafe-eval' are required for Next.js 16 runtime
       // (styled-jsx, fast refresh, etc.). Removing them will break the app.
       // For a stricter policy, implement CSP nonces via middleware.
-      // static.cloudflareinsights.com is Cloudflare's auto-injected Web Analytics
-      // beacon; allowing it prevents CSP console violations (finding F-5).
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://analytics.knowyourgov.us https://static.cloudflareinsights.com",
+      // Third-party beacons (self-hosted analytics, Cloudflare RUM) are added
+      // from environment variables above, when configured.
+      `script-src 'self' 'unsafe-inline' 'unsafe-eval'${scriptExtras ? " " + scriptExtras : ""}`,
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https://theunitedstates.io https://bioguide.congress.gov https://www.congress.gov https://congress.gov https://*.oyez.org",
-      "connect-src 'self' https://api.bigdatacloud.net https://ipapi.co https://api.usaspending.gov https://analytics.knowyourgov.us https://cloudflareinsights.com",
+      `connect-src 'self' https://api.bigdatacloud.net https://ipapi.co https://api.usaspending.gov${connectExtras ? " " + connectExtras : ""}`,
       "font-src 'self'",
       "frame-ancestors 'none'",
       "base-uri 'self'",

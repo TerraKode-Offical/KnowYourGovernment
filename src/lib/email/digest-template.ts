@@ -1,8 +1,8 @@
 import { BASE_URL } from "@/lib/resend";
 
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Types
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export interface DigestBill {
   externalId: string;
@@ -33,9 +33,9 @@ export interface DigestEmailParams {
   unsubscribeToken: string;
 }
 
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Builder
-// ─────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function escapeHtml(text: string): string {
   return text
@@ -63,7 +63,7 @@ function billRow(bill: DigestBill): string {
   return `
     <div style="padding:10px 0;border-bottom:1px solid #f3f4f6;">
       <div style="font-size:13px;color:#6b7280;margin-bottom:2px;">
-        ${escapeHtml(bill.externalId)} · ${escapeHtml(bill.status.replace(/_/g, " "))} ${badge}
+        ${escapeHtml(bill.externalId)} Â· ${escapeHtml(bill.status.replace(/_/g, " "))} ${badge}
       </div>
       <div style="font-size:14px;color:#1f2937;font-weight:500;">${escapeHtml(bill.title)}</div>
     </div>`;
@@ -102,7 +102,7 @@ export function buildDigestEmail(params: DigestEmailParams): {
   if (deadlines.length > 0) {
     sections.push(
       section(
-        `Upcoming Deadlines — ${escapeHtml(stateName)}`,
+        `Upcoming Deadlines â€” ${escapeHtml(stateName)}`,
         deadlines.map(deadlineRow).join("")
       )
     );
@@ -111,10 +111,10 @@ export function buildDigestEmail(params: DigestEmailParams): {
   if (bills.length > 0) {
     sections.push(
       section(
-        `Bills — ${escapeHtml(stateName)}`,
+        `Bills â€” ${escapeHtml(stateName)}`,
         bills.slice(0, 10).map(billRow).join("") +
           (bills.length > 10
-            ? `<p style="font-size:13px;color:#6b7280;margin-top:8px;">+ ${bills.length - 10} more — <a href="${stateUrl}/bills" style="color:#1B2A4A;">view all</a></p>`
+            ? `<p style="font-size:13px;color:#6b7280;margin-top:8px;">+ ${bills.length - 10} more â€” <a href="${stateUrl}/bills" style="color:#1B2A4A;">view all</a></p>`
             : "")
       )
     );
@@ -139,7 +139,7 @@ export function buildDigestEmail(params: DigestEmailParams): {
 <body style="margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f3f4f6;">
   <div style="max-width:560px;margin:40px auto;background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.1);">
     <div style="background:#1B2A4A;padding:20px 32px;">
-      <h1 style="margin:0;color:#ffffff;font-size:18px;font-weight:700;">InformedVoter</h1>
+      <h1 style="margin:0;color:#ffffff;font-size:18px;font-weight:700;">KnowYourGov</h1>
       <p style="margin:4px 0 0;color:rgba(255,255,255,0.6);font-size:13px;">Your ${escapeHtml(stateName)} civic digest</p>
     </div>
     <div style="padding:24px 32px;">
@@ -152,7 +152,7 @@ export function buildDigestEmail(params: DigestEmailParams): {
     </div>
     <div style="padding:16px 32px;background:#f9fafb;border-top:1px solid #e5e7eb;">
       <p style="margin:0;font-size:11px;color:#9ca3af;text-align:center;line-height:1.5;">
-        You're receiving this because you subscribed to ${escapeHtml(stateName)} updates on InformedVoter.<br>
+        You're receiving this because you subscribed to ${escapeHtml(stateName)} updates on KnowYourGov.<br>
         <a href="${unsubUrl}" style="color:#6b7280;text-decoration:underline;">Unsubscribe</a>
       </p>
     </div>

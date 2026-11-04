@@ -3,37 +3,32 @@
 ## Runtime topology
 
 ```
-Cloudflare (proxied, Full strict)
+Reverse proxy (TLS termination, compression)
         │
         ▼
-Caddy on iv-app (TLS via Cloudflare Origin CA, HTTP/2, compression)
-        │  reverse_proxy app:3000
-        ▼
-Next.js standalone container (iv-app, non-root user `nextjs`)
-        ├── Prisma ──────────────► PostgreSQL 17 (iv-data, 10.39.112.20:5432)
-        ├── ioredis ─────────────► Redis 7        (iv-data, 10.39.112.20:6379)
+Next.js standalone container (non-root user `nextjs`)
+        ├── Prisma ──────────────► PostgreSQL 17
+        ├── ioredis ─────────────► Redis 7
         └── outbound HTTPS ──────► Congress.gov, OpenFEC, Google Civic,
                                    Oyez, CourtListener, USAspending,
                                    Anthropic, Resend (optional)
 ```
 
-`iv-app` and `iv-data` are separate Proxmox VMs. The database and Redis bind
-only to the VPC address and are never exposed publicly. The app port binds to
-`127.0.0.1:3000` on the host; only Caddy is published.
+The app and data tiers are deployed separately. The database and Redis bind to
+a private interface and are never exposed publicly; only the reverse proxy is
+published.
 
 ## Request lifecycle
 
-1. **Cloudflare** terminates the public TLS session and forwards to the origin
-   (DNAT source-locked to Cloudflare ranges).
-2. **Caddy** terminates TLS with the Origin CA certificate and proxies to the app.
-3. **Middleware** (`src/middleware.ts`, Node runtime):
-   - resolves the client IP (`cf-connecting-ip` → `x-real-ip` → rightmost XFF),
+1. **Reverse proxy** terminates TLS and forwards to the app.
+2. **Middleware** (`src/middleware.ts`, Node runtime):
+   - resolves the client IP from proxy headers (`cf-connecting-ip` → `x-real-ip` → rightmost XFF),
    - applies the rate-limit tier,
    - authenticates `/api/ai/*` and `/api/cron/*` (constant-time Bearer),
    - sets CORS headers scoped to the site origin.
-4. **Route handler** (App Router) validates input, talks to Prisma or an external
+3. **Route handler** (App Router) validates input, talks to Prisma or an external
    API, and returns JSON. Cron handlers re-verify the secret.
-5. **Errors** are normalised by `withErrorHandler` into `{success, message, code}`
+4. **Errors** are normalised by `withErrorHandler` into `{success, message, code}`
    with a request id; internal details are logged server-side only.
 
 ## Rendering strategy
