@@ -32,11 +32,11 @@ export async function generateMetadata({ params }: CityPageProps): Promise<Metad
       notFound();
     }
     return {
-      title: `${municipality.name}, ${municipality.state} â€” Local Meetings`,
+      title: `${municipality.name}, ${municipality.state} — Local Meetings`,
       description: `Upcoming city council meetings for ${municipality.name}. Find city hall location, meeting agendas, and speaking templates.`,
     };
   } catch {
-    return { title: "Local Government â€” KnowYourGov" };
+    return { title: "Local Government — KnowYourGov" };
   }
 }
 
@@ -96,7 +96,7 @@ export default async function CityPage({ params }: CityPageProps) {
       </div>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
-        {/* â”€â”€ Locations â”€â”€ */}
+        {/* ── Locations ── */}
         <AnimatedSection delay={0}>
           <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
@@ -161,7 +161,7 @@ export default async function CityPage({ params }: CityPageProps) {
           </section>
         </AnimatedSection>
 
-        {/* â”€â”€ Schedule Note â”€â”€ */}
+        {/* ── Schedule Note ── */}
         {meetingScheduleNote && (
           <AnimatedSection delay={0.05}>
             <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 flex items-start gap-3">
@@ -174,7 +174,7 @@ export default async function CityPage({ params }: CityPageProps) {
           </AnimatedSection>
         )}
 
-        {/* â”€â”€ Upcoming Meetings â”€â”€ */}
+        {/* ── Upcoming Meetings ── */}
         <AnimatedSection delay={0.1}>
           <section>
             <div className="flex items-center justify-between mb-6">
@@ -280,7 +280,7 @@ export default async function CityPage({ params }: CityPageProps) {
           </section>
         </AnimatedSection>
 
-        {/* â”€â”€ Recording Reminder â”€â”€ */}
+        {/* ── Recording Reminder ── */}
         <AnimatedSection delay={0.15}>
           <section className="bg-amber-50 border border-amber-200 rounded-2xl p-6">
             <div className="flex items-start gap-4">
@@ -292,7 +292,7 @@ export default async function CityPage({ params }: CityPageProps) {
                 <p className="text-sm text-amber-800 leading-relaxed">
                   Start recording on your phone before the meeting begins. Keep it recording while
                   you speak. If officials violate your First Amendment rights or remove you illegally,
-                  that recording is your evidence for a <strong>42 U.S.C. Â§ 1983</strong> lawsuit.
+                  that recording is your evidence for a <strong>42 U.S.C. § 1983</strong> lawsuit.
                   Back up the video to cloud storage immediately after.
                 </p>
               </div>
@@ -300,7 +300,7 @@ export default async function CityPage({ params }: CityPageProps) {
           </section>
         </AnimatedSection>
 
-        {/* â”€â”€ Grassroots CTA â”€â”€ */}
+        {/* ── Grassroots CTA ── */}
         <AnimatedSection delay={0.2}>
           <section className="bg-[#1B2A4A] text-white rounded-2xl p-6 sm:p-8">
             <div className="flex items-start gap-4">

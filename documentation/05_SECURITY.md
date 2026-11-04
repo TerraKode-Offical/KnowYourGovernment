@@ -1,4 +1,4 @@
-# 05 â€” Security
+# 05 — Security
 
 ## Threat model
 
@@ -11,7 +11,7 @@
 | Compromised dependency | Supply chain | Pinned lockfile, `npm ci`, `npm audit` gate |
 | Insider / host access | Read env, DB | Network-isolated DB, `600` env, rotated secrets, least-privilege containers |
 
-There is no user account system, no admin panel, and no server actions â€” the
+There is no user account system, no admin panel, and no server actions — the
 authenticated surface is limited to cron/AI endpoints protected by a shared
 Bearer secret.
 
@@ -86,7 +86,7 @@ No `X-Powered-By`.
 
 ## Review history
 
-- **2026-11-03** â€” full review and remediation:
+- **2026-11-03** — full review and remediation:
   [`security/2026-11-03/`](./security/2026-11-03/). Fixed a dead cron pipeline,
   missing backups, critical dependency advisories, an exposed secret, missing
   challenger data, and public-write abuse controls.

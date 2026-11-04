@@ -3,10 +3,10 @@ import { BASE_URL } from "@/lib/resend";
 // Note: This route returns HTML pages, not JSON, so we don't use withErrorHandler here.
 // Errors are handled internally with friendly HTML error pages.
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// GET /api/unsubscribe?token=xxx  â†’ Confirmation page
-// POST /api/unsubscribe?token=xxx â†’ Perform deletion (RFC 8058 one-click)
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────
+// GET /api/unsubscribe?token=xxx  → Confirmation page
+// POST /api/unsubscribe?token=xxx → Perform deletion (RFC 8058 one-click)
+// ─────────────────────────────────────────────
 
 function escapeHtml(text: string): string {
   return text
@@ -25,7 +25,7 @@ function htmlPage(title: string, message: string, status = 200): Response {
 <html lang="en">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>${safeTitle} â€” KnowYourGov</title>
+  <title>${safeTitle} — KnowYourGov</title>
 </head>
 <body style="margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f3f4f6;display:flex;justify-content:center;align-items:center;min-height:100vh;">
   <div style="max-width:440px;text-align:center;padding:40px 24px;">
@@ -64,7 +64,7 @@ async function handleUnsubscribe(request: Request): Promise<Response> {
 <html lang="en">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Unsubscribe â€” KnowYourGov</title>
+  <title>Unsubscribe — KnowYourGov</title>
 </head>
 <body style="margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f3f4f6;display:flex;justify-content:center;align-items:center;min-height:100vh;">
   <div style="max-width:440px;text-align:center;padding:40px 24px;">
@@ -81,7 +81,7 @@ async function handleUnsubscribe(request: Request): Promise<Response> {
       );
     }
 
-    // POST â€” perform the actual deletion
+    // POST — perform the actual deletion
     await prisma.subscriber.delete({ where: { id: subscriber.id } });
 
     return htmlPage(

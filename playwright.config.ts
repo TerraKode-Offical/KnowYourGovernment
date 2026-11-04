@@ -1,6 +1,6 @@
 import { defineConfig, devices } from "@playwright/test";
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────
 // KnowYourGov E2E configuration
 //
 // Default target is the operator-authorized live site. Override with:
@@ -9,7 +9,7 @@ import { defineConfig, devices } from "@playwright/test";
 // Tests are split into two classes:
 //   - UI specs (smoke/headers/journeys/a11y) run on the full browser matrix.
 //   - API specs (api.spec.ts) run once on Chromium to respect live rate limits.
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────
 
 const baseURL = process.env.E2E_BASE_URL ?? "https://knowyourgov.us";
 

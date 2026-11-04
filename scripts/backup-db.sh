@@ -1,5 +1,5 @@
 #!/bin/bash
-# â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+# ═══════════════════════════════════════════════════════════════════════════
 # KnowYourGov - Nightly PostgreSQL backup (run on the database host)
 # Custom-format pg_dump, gzip, 14-day rotation, optional offsite copy.
 #
@@ -7,7 +7,7 @@
 #
 # Offsite (optional): set OFFSITE_TARGET to an rsync destination, e.g.
 #   OFFSITE_TARGET="user@nas:/backups/KnowYourGov"
-# â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+# ═══════════════════════════════════════════════════════════════════════════
 
 set -euo pipefail
 
@@ -24,7 +24,7 @@ OUT="${BACKUP_DIR}/${DB_NAME}-${STAMP}.dump.gz"
 umask 077
 mkdir -p "${BACKUP_DIR}"
 
-echo "[backup] Dumping ${DB_NAME} â†’ ${OUT}"
+echo "[backup] Dumping ${DB_NAME} → ${OUT}"
 docker exec "${DB_CONTAINER}" pg_dump -U "${DB_USER}" -Fc --no-owner "${DB_NAME}" | gzip -1 > "${OUT}"
 
 # Verify non-empty + gzip integrity
@@ -40,6 +40,6 @@ echo "[backup] Rotated (kept ${RETAIN_DAYS} days)"
 
 # Offsite (optional)
 if [ -n "${OFFSITE_TARGET}" ]; then
-    echo "[backup] Copying offsite â†’ ${OFFSITE_TARGET}"
+    echo "[backup] Copying offsite → ${OFFSITE_TARGET}"
     rsync -az --remove-source-files "${OUT}" "${OFFSITE_TARGET}/"
 fi

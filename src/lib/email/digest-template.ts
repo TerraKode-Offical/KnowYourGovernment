@@ -1,8 +1,8 @@
 import { BASE_URL } from "@/lib/resend";
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────
 // Types
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────
 
 export interface DigestBill {
   externalId: string;
@@ -33,9 +33,9 @@ export interface DigestEmailParams {
   unsubscribeToken: string;
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────
 // Builder
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────
 
 function escapeHtml(text: string): string {
   return text
@@ -63,7 +63,7 @@ function billRow(bill: DigestBill): string {
   return `
     <div style="padding:10px 0;border-bottom:1px solid #f3f4f6;">
       <div style="font-size:13px;color:#6b7280;margin-bottom:2px;">
-        ${escapeHtml(bill.externalId)} Â· ${escapeHtml(bill.status.replace(/_/g, " "))} ${badge}
+        ${escapeHtml(bill.externalId)} · ${escapeHtml(bill.status.replace(/_/g, " "))} ${badge}
       </div>
       <div style="font-size:14px;color:#1f2937;font-weight:500;">${escapeHtml(bill.title)}</div>
     </div>`;
@@ -102,7 +102,7 @@ export function buildDigestEmail(params: DigestEmailParams): {
   if (deadlines.length > 0) {
     sections.push(
       section(
-        `Upcoming Deadlines â€” ${escapeHtml(stateName)}`,
+        `Upcoming Deadlines — ${escapeHtml(stateName)}`,
         deadlines.map(deadlineRow).join("")
       )
     );
@@ -111,10 +111,10 @@ export function buildDigestEmail(params: DigestEmailParams): {
   if (bills.length > 0) {
     sections.push(
       section(
-        `Bills â€” ${escapeHtml(stateName)}`,
+        `Bills — ${escapeHtml(stateName)}`,
         bills.slice(0, 10).map(billRow).join("") +
           (bills.length > 10
-            ? `<p style="font-size:13px;color:#6b7280;margin-top:8px;">+ ${bills.length - 10} more â€” <a href="${stateUrl}/bills" style="color:#1B2A4A;">view all</a></p>`
+            ? `<p style="font-size:13px;color:#6b7280;margin-top:8px;">+ ${bills.length - 10} more — <a href="${stateUrl}/bills" style="color:#1B2A4A;">view all</a></p>`
             : "")
       )
     );

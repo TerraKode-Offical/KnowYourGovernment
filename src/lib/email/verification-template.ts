@@ -31,7 +31,7 @@ export function buildVerificationEmail(
   const verifyUrl = `${BASE_URL}/api/subscribe/verify?token=${encodeURIComponent(token)}`;
 
   return {
-    subject: `Confirm your KnowYourGov subscription â€” ${stateName}`,
+    subject: `Confirm your KnowYourGov subscription — ${stateName}`,
     html: `<!DOCTYPE html>
 <html lang="en">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width"></head>
@@ -43,7 +43,7 @@ export function buildVerificationEmail(
     <div style="padding:32px;">
       <h2 style="margin:0 0 12px;color:#1B2A4A;font-size:18px;">Confirm your subscription</h2>
       <p style="color:#4b5563;font-size:15px;line-height:1.6;margin:0 0 8px;">
-        You asked for updates about <strong>${escapeHtml(stateName)}</strong> â€” bills, election deadlines,
+        You asked for updates about <strong>${escapeHtml(stateName)}</strong> — bills, election deadlines,
         and Supreme Court decisions, explained in plain English.
       </p>
       <p style="color:#4b5563;font-size:15px;line-height:1.6;margin:0 0 24px;">

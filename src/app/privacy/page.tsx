@@ -5,7 +5,7 @@ import { ChevronRight, ShieldCheck } from "lucide-react";
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
-  title: "Privacy Policy â€” KnowYourGov",
+  title: "Privacy Policy — KnowYourGov",
   description:
     "KnowYourGov privacy policy. Learn how we handle your data, cookies, and personal information.",
 };
@@ -55,7 +55,7 @@ export default function PrivacyPage() {
               All civic information displayed on KnowYourGov is sourced from publicly available
               government APIs and official data providers, including Congress.gov, the Federal
               Election Commission (FEC), LegiScan, and the Google Civic Information API. We
-              aggregate and present this public information â€” we do not create or manufacture
+              aggregate and present this public information — we do not create or manufacture
               political data.
             </p>
           </section>
@@ -103,7 +103,7 @@ export default function PrivacyPage() {
             <h2 className="text-xl font-bold text-[#1B2A4A] mb-3">Changes to This Policy</h2>
             <p className="text-gray-600 leading-relaxed">
               If we make changes to this privacy policy, we will update this page. Because we
-              do not collect email addresses, we cannot notify you directly â€” we encourage you
+              do not collect email addresses, we cannot notify you directly — we encourage you
               to review this page periodically.
             </p>
           </section>

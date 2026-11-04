@@ -1,4 +1,4 @@
-# Data Freshness Review â€” KnowYourGov (2026-11-03)
+# Data Freshness Review — KnowYourGov (2026-11-03)
 
 All figures were read directly from the production database on the data host
 and from live API probes, not from documentation.
@@ -32,31 +32,31 @@ previous assessment). Daily jobs had not executed since the Oct 8 migration.
 
 ---
 
-## 2. Before â†’ after
+## 2. Before → after
 
 | Dataset | Source | Before (2026-11-03 18:00 UTC) | After (2026-11-03 21:00 UTC) |
 |---|---|---|---|
 | Bills | Congress.gov v3 | 7,181; newest action **2026-10-09**; 0 actioned in 7 days | **7,476**; newest action **2026-11-02** (295 created, 205 updated) |
 | Members | Congress.gov v3 | 539, last synced Oct 10 | **539 updated** (80 s) |
-| Candidates | Congress.gov + **FEC (new)** | 596 â€” **100% incumbents** | **2,672** (2,604 FEC-linked): 600 incumbents + **2,072 challengers** |
+| Candidates | Congress.gov + **FEC (new)** | 596 — **100% incumbents** | **2,672** (2,604 FEC-linked): 600 incumbents + **2,072 challengers** |
 | Campaign finance | OpenFEC | 96 candidates | **190 candidates / 193 finance rows** (+94 synced this run) |
 | Elections | Google Civic | 122 rows, created Oct 10 | 123 rows (1 created, 1 updated); **53 elections dated 2026-11-03** |
 | Voter info | static table | 51 rows, updated Oct 8 | 51 rows re-upserted; still static (see gaps) |
 | SCOTUS cases | Oyez | 155 | **160** (160 synced; 31 OT2026 cases present) |
-| Justice disclosures | CourtListener | 0 | **0 â€” token invalid (401)** |
+| Justice disclosures | CourtListener | 0 | **0 — token invalid (401)** |
 | Bill votes | Congress.gov | 2,147 | 2,147 (no new roll calls; 14 skipped with no matching bill) |
-| Cosponsors | â€” | 0 | 0 (not implemented) |
-| PAC contributions | OpenFEC | 0 | 0 (query returns no rows â€” follow-up) |
+| Cosponsors | — | 0 | 0 (not implemented) |
+| PAC contributions | OpenFEC | 0 | 0 (query returns no rows — follow-up) |
 | Local meetings | Legistar | 0 municipalities, 0 meetings | 0 (no municipalities configured) |
 | Social handles | unitedstates/congress-legislators | 517 | **517 updated** |
-| AI summaries | Claude | 690 bills | 690 (no API key â€” jobs now skip cleanly) |
+| AI summaries | Claude | 690 bills | 690 (no API key — jobs now skip cleanly) |
 
 Live check of today's election data:
 
 ```
 GET /api/polling-places?address=1600 Pennsylvania Ave NW, Washington, DC
-â†’ election: "2026 General Midterm Election", electionDay: 2026-11-03
-â†’ pollingLocations: M.L.K. JR. MEMORIAL LIBRARY, STEAD RECREATION CENTER, â€¦
+→ election: "2026 General Midterm Election", electionDay: 2026-11-03
+→ pollingLocations: M.L.K. JR. MEMORIAL LIBRARY, STEAD RECREATION CENTER, …
    pollingHours: "Tue, Nov 3: 7 am - 8 pm"
 ```
 
@@ -131,5 +131,5 @@ GET https://knowyourgov.us/api/health?verbose=1
 **Note on the FEC import filter:** challengers are limited to
 `cycle=2026`, `candidate_status=C`, `has_raised_funds=true` (2,660 records).
 This excludes paper candidates and perennial filers. It is a defensible
-"serious candidates" threshold, not a full ballot list â€” ballot-qualified
+"serious candidates" threshold, not a full ballot list — ballot-qualified
 candidate lists live with each state, not the FEC.

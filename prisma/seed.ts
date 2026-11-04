@@ -13,7 +13,7 @@
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const { PrismaClient } = require("@prisma/client");
 
-// Enum values â€” keep in sync with prisma/schema.prisma
+// Enum values — keep in sync with prisma/schema.prisma
 const Chamber = { HOUSE: "HOUSE", SENATE: "SENATE" } as const;
 const BillStatus = {
   INTRODUCED: "INTRODUCED",
@@ -42,9 +42,9 @@ import * as path from "path";
 
 const prisma = new PrismaClient();
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────
 // State data
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────
 
 interface StateEntry {
   name: string;
@@ -60,7 +60,7 @@ function loadStates(): StateEntry[] {
     return JSON.parse(raw) as StateEntry[];
   }
 
-  // Hardcoded fallback â€” all 50 states
+  // Hardcoded fallback — all 50 states
   return [
     { name: "Alabama", abbreviation: "AL", fipsCode: "01" },
     { name: "Alaska", abbreviation: "AK", fipsCode: "02" },
@@ -115,14 +115,14 @@ function loadStates(): StateEntry[] {
   ];
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────
 // Main seed
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────
 
 async function main() {
   console.log("Seeding database...");
 
-  // â”€â”€ 1. States â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── 1. States ───────────────────────────────
   console.log("Upserting states...");
   const states = loadStates();
 
@@ -133,7 +133,7 @@ async function main() {
       update: { name: s.name, fipsCode: s.fipsCode },
     });
   }
-  console.log(`  âœ“ ${states.length} states upserted`);
+  console.log(`  ✓ ${states.length} states upserted`);
 
   // Resolve state IDs we'll need later
   const caState = await prisma.state.findUnique({ where: { abbreviation: "CA" } });
@@ -141,10 +141,10 @@ async function main() {
   const nyState = await prisma.state.findUnique({ where: { abbreviation: "NY" } });
 
   if (!caState || !txState || !nyState) {
-    throw new Error("State seed failed â€” could not resolve CA, TX, or NY");
+    throw new Error("State seed failed — could not resolve CA, TX, or NY");
   }
 
-  // â”€â”€ 2. Sample Candidates (Senators) â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── 2. Sample Candidates (Senators) ─────────
   console.log("Upserting sample candidates...");
 
   const candidateData: Array<{
@@ -269,9 +269,9 @@ async function main() {
     createdCandidates.push({ id: candidate.id, name: candidate.name });
   }
 
-  console.log(`  âœ“ ${createdCandidates.length} candidates upserted`);
+  console.log(`  ✓ ${createdCandidates.length} candidates upserted`);
 
-  // â”€â”€ 3. Sample Bills with mock AI analysis â”€â”€â”€
+  // ── 3. Sample Bills with mock AI analysis ───
   console.log("Upserting sample bills...");
 
   const schiff = createdCandidates.find((c) => c.name === "Adam Schiff");
@@ -415,9 +415,9 @@ async function main() {
     });
   }
 
-  console.log(`  âœ“ ${billData.length} bills upserted`);
+  console.log(`  ✓ ${billData.length} bills upserted`);
 
-  // â”€â”€ 4. Sample VoterInfo â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── 4. Sample VoterInfo ──────────────────────
   console.log("Upserting sample voter info...");
 
   const voterInfoData = [
@@ -490,7 +490,7 @@ async function main() {
     });
   }
 
-  console.log(`  âœ“ ${voterInfoData.length} voter info records upserted`);
+  console.log(`  ✓ ${voterInfoData.length} voter info records upserted`);
 
   console.log("\nSeed complete.");
 }

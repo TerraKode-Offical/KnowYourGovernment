@@ -8,24 +8,24 @@ import USStateMap from "@/components/features/USStateMap";
 import FederalAgenciesSection from "@/components/features/FederalAgenciesSection";
 import { ExploreStateButton, QuickActions, VoterEssentials } from "@/components/features/HomepageLinks";
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────
 // Metadata
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────
 
 export const metadata: Metadata = {
-  title: "KnowYourGov â€” Your Government, In Plain English",
+  title: "KnowYourGov — Your Government, In Plain English",
   description:
-    "Understand your government without the jargon. Congress, Supreme Court, federal agencies, campaign finance, and your ballot â€” explained simply.",
+    "Understand your government without the jargon. Congress, Supreme Court, federal agencies, campaign finance, and your ballot — explained simply.",
 };
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────
 // Page (Server Component)
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────
 
 export default function HomePage() {
   return (
     <div className="flex flex-col">
-      {/* â”€â”€ Hero + Interactive Map â”€â”€ */}
+      {/* ── Hero + Interactive Map ── */}
       <section className="relative overflow-hidden bg-[#1B2A4A] text-white">
         {/* Decorative background */}
         <div className="absolute inset-0 pointer-events-none">
@@ -39,7 +39,7 @@ export default function HomePage() {
             <div>
               <div className="inline-flex items-center gap-2 bg-white/10 text-white/80 text-sm font-medium px-3 py-1.5 rounded-full mb-6 ring-1 ring-white/20">
                 <ShieldCheck size={14} />
-                100% Nonpartisan Â· No Ads Â· No Spin
+                100% Nonpartisan · No Ads · No Spin
               </div>
 
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-6 text-white">
@@ -52,7 +52,7 @@ export default function HomePage() {
 
               <p className="text-base text-white/70 mb-8 max-w-lg leading-relaxed">
                 Congress, the Supreme Court, federal agencies, campaign finance,
-                and your ballot â€” all in one place, explained without jargon or
+                and your ballot — all in one place, explained without jargon or
                 partisan spin.
               </p>
 
@@ -75,7 +75,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* â”€â”€ Quick Actions â”€â”€ */}
+      {/* ── Quick Actions ── */}
       <section className="bg-gray-50 py-16 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-10">
@@ -91,10 +91,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* â”€â”€ Federal Agencies â”€â”€ */}
+      {/* ── Federal Agencies ── */}
       <FederalAgenciesSection />
 
-      {/* â”€â”€ Voter Essentials â”€â”€ */}
+      {/* ── Voter Essentials ── */}
       <section className="bg-gray-50 py-16 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-10">
@@ -110,7 +110,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* â”€â”€ Mission Banner â”€â”€ */}
+      {/* ── Mission Banner ── */}
       <section className="bg-[#1B2A4A] text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-white/60 text-sm font-medium uppercase tracking-widest mb-3">
@@ -121,7 +121,7 @@ export default function HomePage() {
           </h2>
           <p className="text-white/70 max-w-2xl mx-auto text-base leading-relaxed mb-6">
             KnowYourGov uses AI to cut through legal jargon and make government
-            accessible â€” from 500-page bills to Supreme Court rulings to agency budgets.
+            accessible — from 500-page bills to Supreme Court rulings to agency budgets.
             Always sourced, always nonpartisan.
           </p>
           <Link

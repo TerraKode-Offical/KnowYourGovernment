@@ -2,10 +2,10 @@ import { prisma } from "@/lib/db";
 import { BASE_URL } from "@/lib/resend";
 import { withErrorHandler, ValidationError, NotFoundError } from "@/lib/api-error-handler";
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────
 // GET /api/subscribe/verify?token=xxx
 // Returns an HTML page (not JSON) since users click this from email
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────
 
 function escapeHtml(text: string): string {
   return text
@@ -25,7 +25,7 @@ function htmlPage(title: string, message: string, cta?: string): Response {
 <html lang="en">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>${safeTitle} â€” KnowYourGov</title>
+  <title>${safeTitle} — KnowYourGov</title>
 </head>
 <body style="margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f3f4f6;display:flex;justify-content:center;align-items:center;min-height:100vh;">
   <div style="max-width:440px;text-align:center;padding:40px 24px;">
@@ -79,7 +79,7 @@ export const GET = withErrorHandler(async (request: Request) => {
 
     return htmlPage(
       "You're Subscribed!",
-      "Your email has been confirmed. You'll receive civic updates for your state â€” bills, deadlines, and Supreme Court decisions, explained in plain English."
+      "Your email has been confirmed. You'll receive civic updates for your state — bills, deadlines, and Supreme Court decisions, explained in plain English."
     );
   } catch (error) {
     console.error("[verify] Error:", error);

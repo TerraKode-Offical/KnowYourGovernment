@@ -1,4 +1,4 @@
-# Security Review â€” KnowYourGov (2026-11-03)
+# Security Review — KnowYourGov (2026-11-03)
 
 Method: manual source review of every API route, middleware, auth helpers,
 error handling, dependency tree, container/host configuration, and live probing
@@ -14,9 +14,9 @@ Severity follows CVSS-style judgement for a public civic-information site.
 |---|---|---|---|---|
 | **C-1** | Critical | **Cron pipeline dead since 2026-10-10.** Cron redirects to `/var/log/KnowYourGov-cron.log`, owned `root:root 0644`. Cron runs as `cronuser`; bash fails the redirect before `curl` executes, so no sync job ever ran. | `bash: /var/log/KnowYourGov-cron.log: Permission denied`; `DataSyncLog` newest = 2026-10-10; 0-byte log since Oct 8 | CWE-732 (incorrect permission), availability |
 | **C-2** | Critical | **No database backups.** `scripts/backup-db.sh` existed but was never scheduled; `/var/backups/KnowYourGov` did not exist; no root crontab on the data host. | `ls: cannot access '/var/backups/KnowYourGov'`; `no crontab for root` | CWE-693 (protection mechanism failure) |
-| **C-3** | Critical | **Vulnerable Next.js 16.4.0 in production** â€” unauthenticated RCE in the Image Optimization API when SVG is used (GHSA-2464-fhr4-w9xw), plus App Router DoS (GHSA-p3m5-59mp-jv5r) and `use cache` RCE (GHSA-673q-mjm6-r5xr). Mitigated by `dangerouslyAllowSVG` being off (SVG requests return 400) but not fixed. | `npm audit --omit=dev`; `docker exec <app> node -e "require('next/package.json').version"` â†’ 16.4.0 | CWE-1395 (vulnerable dependency) |
+| **C-3** | Critical | **Vulnerable Next.js 16.4.0 in production** — unauthenticated RCE in the Image Optimization API when SVG is used (GHSA-2464-fhr4-w9xw), plus App Router DoS (GHSA-p3m5-59mp-jv5r) and `use cache` RCE (GHSA-673q-mjm6-r5xr). Mitigated by `dangerouslyAllowSVG` being off (SVG requests return 400) but not fixed. | `npm audit --omit=dev`; `docker exec <app> node -e "require('next/package.json').version"` → 16.4.0 | CWE-1395 (vulnerable dependency) |
 | **C-4** | Critical | **`CRON_SECRET` exposed.** Stored in plaintext in the `cronuser` crontab (readable by any shell on the host) and printed into this session's transcript during the review. | `crontab -l` output | CWE-522 (insufficiently protected credentials) |
-| **H-1** | High | **No challenger data.** `sync-members` ingests only sitting members with `isIncumbent: true`; there was no FEC/state candidate source. Every race appeared uncontested. | `SELECT count(*) FROM "Candidate" WHERE "isIncumbent"` â†’ 596/596 | Data integrity / civic accuracy |
+| **H-1** | High | **No challenger data.** `sync-members` ingests only sitting members with `isIncumbent: true`; there was no FEC/state candidate source. Every race appeared uncontested. | `SELECT count(*) FROM "Candidate" WHERE "isIncumbent"` → 596/596 | Data integrity / civic accuracy |
 | **H-2** | High | **Public write endpoints lacked abuse controls.** `/api/subscribe` re-sent mail to any address (5/min/IP only), no token expiry; `/api/local/meetings/submit` was an unauthenticated INSERT with no honeypot/origin check and unbounded `startTime`, and echoed the stored row (including the submitter's email); `/api/subscribe/demographics` accepted a bearer profile token with no throttle. | Source review | CWE-799 (improper control of interaction frequency), CWE-352 (CSRF) |
 | **H-3** | High | **Error-handling regressions.** Local `try/catch` blocks in `ai/analyze-bill`, `ai/analyze-candidate`, `subscribe/demographics`, `candidates`, `bills` flattened `ValidationError`/`NotFoundError` into HTTP 500. | `/api/candidates?officeType=NOPE` returned 500 before; 400 after | CWE-755 (improper exception handling) |
 | **H-4** | High | **Rate limiting fails open and trusts `cf-connecting-ip` unconditionally.** If the origin is ever reachable without Cloudflare, limits are bypassable. Non-API page routes are not limited. Compensating control: the DNAT is source-locked to Cloudflare ranges. | `src/middleware.ts`, `src/lib/rate-limit.ts` | CWE-770 (resource exhaustion) |
@@ -60,21 +60,21 @@ Severity follows CVSS-style judgement for a public civic-information site.
 ## 3. Changes made
 
 ### Dependencies
-- `next` 16.4.0 â†’ **16.4.5** (fixes all three advisories)
-- `sanitize-html` 2.18.0 â†’ **2.18.1** (drops vulnerable `deepmerge`)
-- `zod` override â†’ **4.6.7** (GHSA-mrhx-c7xc-m3w5)
-- `npm ci` state rebuilt; `npm audit --omit=dev` â†’ 0
+- `next` 16.4.0 → **16.4.5** (fixes all three advisories)
+- `sanitize-html` 2.18.0 → **2.18.1** (drops vulnerable `deepmerge`)
+- `zod` override → **4.6.7** (GHSA-mrhx-c7xc-m3w5)
+- `npm ci` state rebuilt; `npm audit --omit=dev` → 0
 
 ### Authentication / credentials
 - `CRON_SECRET` rotated (32 random bytes) in `/opt/KnowYourGov/.env` and the
   crontab; app container recreated.
 
 ### Request hardening (`src/lib/request-guard.ts`)
-- `assertSameOrigin()` â€” rejects foreign `Origin` and `sec-fetch-site: cross-site`
-- `assertJsonContentType()` â€” blocks HTML-form CSRF shapes
-- `readJsonBody()` â€” hard body-size cap (4â€“16 KB by endpoint)
-- `assertNoHoneypot()` â€” hidden `website` field
-- `allowOnce()` â€” Redis per-address cooldown (fail-closed) for verification mail
+- `assertSameOrigin()` — rejects foreign `Origin` and `sec-fetch-site: cross-site`
+- `assertJsonContentType()` — blocks HTML-form CSRF shapes
+- `readJsonBody()` — hard body-size cap (4–16 KB by endpoint)
+- `assertNoHoneypot()` — hidden `website` field
+- `allowOnce()` — Redis per-address cooldown (fail-closed) for verification mail
 - Applied to `/api/subscribe`, `/api/subscribe/demographics`,
   `/api/local/meetings/submit`, `/api/local/template`
 
@@ -93,12 +93,12 @@ Severity follows CVSS-style judgement for a public civic-information site.
 ### Observability
 - `src/lib/sync-log.ts` + `logSync()` now records every cron job
 - `/api/health?verbose=1` returns per-job last run plus dataset freshness
-  (aggregate counts/timestamps only â€” no PII)
+  (aggregate counts/timestamps only — no PII)
 
 ### AI / optional integrations
 - `src/lib/config.ts` feature flags; cron AI jobs skip cleanly when
   `ANTHROPIC_API_KEY` is absent; `/api/local/template` returns 503
-- `analyze-bills` batch raised 10 â†’ 25 and prioritises recent activity
+- `analyze-bills` batch raised 10 → 25 and prioritises recent activity
 
 ### Headers
 - CSP `img-src` now includes `www.congress.gov` and `congress.gov`

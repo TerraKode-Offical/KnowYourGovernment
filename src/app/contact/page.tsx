@@ -5,7 +5,7 @@ import { ChevronRight, Mail, Github, Globe, AlertTriangle } from "lucide-react";
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
-  title: "Contact Us â€” KnowYourGov",
+  title: "Contact Us — KnowYourGov",
   description:
     "Get in touch with the KnowYourGov team. Report corrections, ask questions, or contribute to our open-source project.",
 };
@@ -45,7 +45,7 @@ export default function ContactPage() {
           <p className="text-gray-600 leading-relaxed mb-6">
             KnowYourGov is an open-source project dedicated to providing nonpartisan civic
             information to every American. We believe that transparent, accessible civic tools
-            should be built in the open â€” and we welcome contributions from developers,
+            should be built in the open — and we welcome contributions from developers,
             designers, data analysts, and civic-minded individuals.
           </p>
 

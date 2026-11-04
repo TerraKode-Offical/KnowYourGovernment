@@ -1,21 +1,21 @@
-# Remediation Status â€” 2026-11-03
+# Remediation Status — 2026-11-03
 
 | ID | Finding | Status | Verification |
 |---|---|---|---|
 | C-1 | Cron pipeline dead (log permissions) | **Fixed & deployed** | 15 jobs run manually; `DataSyncLog` rows created; log writable by `cronuser` |
 | C-2 | No database backups | **Fixed** | `KnowYourGov-20261103-202529.dump.gz` (1.6 MB) created; restore drill returned 7,476 bills / 596 candidates at the time |
-| C-3 | Next.js 16.4.0 critical advisories | **Fixed & deployed** | Production reports `next 16.4.5`; `npm audit --omit=dev` â†’ 0 |
+| C-3 | Next.js 16.4.0 critical advisories | **Fixed & deployed** | Production reports `next 16.4.5`; `npm audit --omit=dev` → 0 |
 | C-4 | `CRON_SECRET` exposure | **Fixed** | New 32-byte secret in `.env` + crontab; container recreated; old value rejected |
-| H-1 | No challenger data | **Fixed** | FEC sync: 2,660 processed â†’ 2,076 created, 574 matched, 10 skipped, 0 errors |
-| H-2 | Public write abuse controls | **Fixed & deployed** | Live: cross-origin POST â†’ 403; honeypot â†’ 400; subscribe 503 when unconfigured; per-address cooldown |
-| H-3 | Validation errors flattened to 500 | **Fixed & deployed** | Live: invalid `officeType` â†’ 400; unknown state â†’ 404; short search â†’ 400 |
+| H-1 | No challenger data | **Fixed** | FEC sync: 2,660 processed → 2,076 created, 574 matched, 10 skipped, 0 errors |
+| H-2 | Public write abuse controls | **Fixed & deployed** | Live: cross-origin POST → 403; honeypot → 400; subscribe 503 when unconfigured; per-address cooldown |
+| H-3 | Validation errors flattened to 500 | **Fixed & deployed** | Live: invalid `officeType` → 400; unknown state → 404; short search → 400 |
 | H-4 | Rate limiter fail-open / CF header trust | **Accepted (compensating control)** | DNAT source-locked to Cloudflare; documented in `SECURITY_REVIEW.md` |
 | M-1 | CSP `unsafe-inline`/`unsafe-eval` | **Accepted, follow-up** | Documented; nonce CSP planned |
 | M-2 | CSP `img-src` missing congress.gov | **Fixed & deployed** | Header now includes `https://www.congress.gov https://congress.gov` |
 | M-3 | Only 2 jobs logged to `DataSyncLog` | **Fixed & deployed** | `logSync()` added to 9 routes; `/api/health?verbose=1` live |
 | M-4 | Unbounded `page` / body size | **Fixed** | Body caps on all POSTs; page param still uncapped (tracked) |
 | M-5 | CourtListener token invalid | **Blocked** | Live probe returns 401; needs a new token |
-| M-6 | AI/email keys absent | **Mitigated** | Cron AI jobs skip; `/api/local/template` â†’ 503; subscribe â†’ 503; UI hides forms |
+| M-6 | AI/email keys absent | **Mitigated** | Cron AI jobs skip; `/api/local/template` → 503; subscribe → 503; UI hides forms |
 | L-1 | Hygiene items | **Partly fixed** | Stray `are starti` removed; unused vars remain (warnings only) |
 
 ---
@@ -30,7 +30,7 @@
 | Oyez (justices, cases) | **Healthy** | 2026-11-03 |
 | CourtListener (disclosures) | **Unauthorized** | 2026-11-03 |
 | unitedstates/congress-legislators (social) | **Healthy** | 2026-11-03 |
-| Legistar (local meetings) | **No data** | n/a â€” no municipalities |
+| Legistar (local meetings) | **No data** | n/a — no municipalities |
 | LegiScan (state bills) | **Not integrated / blocked** | n/a |
 | State election sites (voter info) | **Static table** | 2026-11-03 (upsert only) |
 | Anthropic (AI analysis) | **Not configured** | n/a |
@@ -41,14 +41,14 @@
 ## Operational changes on the hosts
 
 **App host**
-- `/var/log/KnowYourGov-cron.log` â†’ `cronuser:crontab 0640`
+- `/var/log/KnowYourGov-cron.log` → `cronuser:crontab 0640`
 - `/etc/logrotate.d/KnowYourGov-cron` added (weekly, 8 rotations)
 - crontab rewritten with rotated secret and `--max-time 900`; 15 jobs
 - app + proxy rebuilt from `1a43c4b`
 
 **Data host**
 - `/var/backups/KnowYourGov/` created
-- `/etc/cron.d/KnowYourGov-backup` â€” nightly 02:15 UTC
+- `/etc/cron.d/KnowYourGov-backup` — nightly 02:15 UTC
 - first backup created and restore-verified
 
 **Secrets**
@@ -65,7 +65,7 @@
 ## Open actions for the operator
 
 1. Provide `ANTHROPIC_API_KEY` (AI summaries + speaking templates).
-2. Provide `RESEND_API_KEY` (subscriptions + digest) â€” the UI stays hidden until then.
+2. Provide `RESEND_API_KEY` (subscriptions + digest) — the UI stays hidden until then.
 3. Provide a valid `COURTLISTENER_API_TOKEN` (justice disclosures).
 4. Decide on LegiScan for state bills.
 5. Decide on seeding municipalities for `/local`.
